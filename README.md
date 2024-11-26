@@ -1,3 +1,11 @@
 # LaborarbeitSprachmodelle
 
-Palim Palim
+## Projektbeschreibung
+
+### Thema
+
+### Vorgehensweise
+
+### Aufgabenverteilung
+
+## Initialisierung des Projektes
