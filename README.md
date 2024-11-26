@@ -29,7 +29,7 @@ Die Vorverarbeiten um ein schnelles retrivel zu ermöglichen.
 
 - KI Modell auswählen
 - KI Modell ausprobieren und Bilder klassifizieren
-- Bennenung von erkannten Person
+- Benennung von erkannten Person
 - Erstellen einer GUI
 - Datenbank
 
@@ -42,6 +42,10 @@ Die Vorverarbeiten um ein schnelles retrivel zu ermöglichen.
 | Kurt   | Auswahl KI Modell, testen des KI Modells, |
 | Nico   | GUI, Präsentation, Docker |
 | Daniel | Backend, Präsentation, Datenbank, Docker |
+
+### Projekt aufsetzen
+1. venv erstellen mit `pyhton -m venv myENV` und aktivieren mit (MAC)`source myENV/bin/activate`
+2. Dependencies installieren mit `pip install -r requirements.txt`
 
 
 
