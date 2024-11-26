@@ -20,7 +20,7 @@ Die Vorverarbeiten um ein schnelles retrivel zu ermöglichen.
 
 ### Technologien
 
-- Frontend: WXPython?
+- Frontend: Flask
 - Backend: Flask
 - DB: SQLite
 - Docker
