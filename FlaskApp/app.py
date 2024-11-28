@@ -8,7 +8,7 @@ def home():
     return render_template('index.html', test="Testvariable")
 
 # Register blueprints
-app.register_blueprint(test_bp)
+app.register_blueprint(test_bp, url_prefix='/subpage')
 
 if __name__ == '__main__':
     app.run(debug=True)
