@@ -5,6 +5,7 @@ from routes.diagnosis import diagnosis_bp
 from routes.recommendations import recommendations_bp
 
 app = Flask(__name__)
+app.secret_key = 'jgagnj<ngjpnhnbmbnshnowkrhnsmba25uo11o'
 
 @app.route('/')
 def home():
