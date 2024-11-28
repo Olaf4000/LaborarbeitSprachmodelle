@@ -4,19 +4,12 @@
 
 ## Projektbeschreibung
 
-Das Ziel des Projektes ist es eine KI gestütze Bildersuche um zu setzen. 
-Mann soll die Anwendung nach Personen oder Gegenständen fragen können und sie soll zur Anfrage 
-passende Bilder suchen und ausgeben.
-
-Die Vorverarbeiten um ein schnelles retrivel zu ermöglichen.
+Das Projekt solle eine Art Chatbot darstellen, der zu einer gegebenen Menge an Symptomen
+eine wahrscheinliche Krankheit bestimmt.
 
 ### Vorgehensweise
 
-1. KI Modell zur klassifizierung von Bildern bestimmen
-  1. Die Anwendung soll auf jeden Fall Personen erkennen
-1. Klassifizierung der Bilder
-1. Retrivel der klassifizierten Bilder umsetzten
-1. Frontend der Anwendung
+
 
 ### Technologien
 
@@ -26,12 +19,6 @@ Die Vorverarbeiten um ein schnelles retrivel zu ermöglichen.
 - Docker
 
 ### Aufgaben
-
-- KI Modell auswählen
-- KI Modell ausprobieren und Bilder klassifizieren
-- Benennung von erkannten Person
-- Erstellen einer GUI
-- Datenbank
 
 ### Aufgabenverteilung
 
