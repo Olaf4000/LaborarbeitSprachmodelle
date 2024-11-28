@@ -4,14 +4,14 @@ import os
 import requests
 from flask.cli import load_dotenv
 from requests import Response
-from FlaskApp.value_objects.llm_vos.QueryVo import QueryVo
+from FlaskApp.value_objects.llm_vos.QueryVO import QueryVO
 
 load_dotenv()
 llm_uri_base_path = os.getenv("LLM_URI_BASE_PATH")
 open_ai_key = os.getenv('LLM_KEY')
 
 
-def send_query(query: QueryVo) -> Response:
+def send_query(query: QueryVO) -> Response:
     """
     function passes a query to the defined LLM Base Path (only tested with the openAI API)
 

@@ -1,4 +1,4 @@
-class PatientVo:
+class PatientVO:
     """
     describes a patient and its personal data
     """

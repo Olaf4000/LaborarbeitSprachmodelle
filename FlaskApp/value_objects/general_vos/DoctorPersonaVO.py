@@ -1,4 +1,4 @@
-class DoctorPersona:
+class DoctorPersonaVO:
     """
     describes the persona of the doctor the LLM tries to resemble
     """

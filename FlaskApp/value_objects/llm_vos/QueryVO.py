@@ -1,6 +1,6 @@
 import os
 
-class QueryVo:
+class QueryVO:
     """
     This class contains information necessary to make a call on the llm api.
     """
