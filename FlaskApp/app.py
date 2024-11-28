@@ -1,5 +1,9 @@
-from flask import Flask, render_template
+import os
 
+from flask import Flask, render_template
+from flask.cli import load_dotenv
+
+from FlaskApp.api.api import api_bp
 from routes.test import test_bp
 from routes.diagnosis import diagnosis_bp
 from routes.recommendations import recommendations_bp
@@ -15,6 +19,7 @@ def home():
 app.register_blueprint(test_bp, url_prefix='/subpage')
 app.register_blueprint(diagnosis_bp, url_prefix='/diagnosis')
 app.register_blueprint(recommendations_bp, url_prefix='/recommendations')
+app.register_blueprint(api_bp, url_prefix='/api')
 
 if __name__ == '__main__':
     app.run(debug=True)
