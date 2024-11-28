@@ -42,6 +42,17 @@ eine wahrscheinliche Krankheit bestimmt.
 1. venv erstellen mit `pyhton -m venv myENV` und aktivieren mit (MAC)`source myENV/bin/activate`
 2. Dependencies installieren mit `pip install -r requirements.txt`
 
+### Dockerfile Optionen
+`docker-compose up --build` falls Änderungen in der Docker Compose gemacht wurden --> alles Images werden neu gebaut
+`docker-compose down` stoppt alle Container
+`docker-compose up` Dienste werden gestartet
+
+### Bugs
+- [ ] Elemente in DB hinzufügen zum Laufen bringen
+- [ ] Die Modelle evtl. in eine models.py auslagern
+
+
+
 
 
 
