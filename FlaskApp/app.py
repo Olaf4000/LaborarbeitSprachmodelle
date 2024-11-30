@@ -9,6 +9,7 @@ from FlaskApp.api.api import api_bp
 from routes.test import test_bp
 from routes.diagnosis import diagnosis_bp
 from routes.recommendations import recommendations_bp
+from routes.doctors import doctors_bp
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -28,6 +29,7 @@ class User(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     symptoms = db.Column(db.String(255), nullable=False)
+    family_diseases = db.Column(db.String(255), nullable=False)
 
 class Diagnosis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,6 +53,8 @@ app.register_blueprint(test_bp, url_prefix='/subpage')
 app.register_blueprint(diagnosis_bp, url_prefix='/diagnosis')
 app.register_blueprint(recommendations_bp, url_prefix='/recommendations')
 app.register_blueprint(api_bp, url_prefix='/api')
+
+app.register_blueprint(doctors_bp, url_prefix='/doctors')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -24,11 +24,13 @@ def submit_diagnosis():
         flash('Please enter a symptom description', 'error')
         return redirect(url_for('diagnosis.diagnosis'))
 
+    session['name'] = request.form['name']
     session['age'] = request.form['age']
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
+    session['family_diseases'] = request.form['family_diseases']
 
-    print(session.get('age'), session.get('gender'), session.get('symptoms'))
+    print(session.get('name'), session.get('age'), session.get('gender'), session.get('symptoms'), session.get('family_diseases'))
 
     # Todo --> es funktioniert noch nicht und try catch ist nur das die App nicht abstürzt
     # Erstelle einen neuen User

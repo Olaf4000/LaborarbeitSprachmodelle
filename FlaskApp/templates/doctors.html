@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ1QJQ57lXrDvhWPII75P4rwAdC14aG0s0+qKqsTp3wR6zrlDnoWQAlFpm9Z" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <!-- Titel -->
+        <h2 class="text-center text-primary mb-4">Ärzteprofile</h2>
+
+        <!-- Liste der Ärzte -->
+        <div class="row">
+            {% for doctor in doctors %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ doctor.name }}</h5>
+                            <p class="card-text"><strong>Fachrichtung:</strong> {{ doctor.medical_specialty }}</p>
+                            <p class="card-text"><strong>Praxisort:</strong> {{ doctor.place_of_doctors_office }}</p>
+                            <p class="card-text"><strong>Öffnungszeiten:</strong> {{ doctor.opening_hours }}</p>
+                            <a href="#" class="btn btn-primary">Mehr erfahren</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

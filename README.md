@@ -4,7 +4,11 @@
 
 ### Ich will das nur starten was mach ich nu
 
-`docker-compose up`
+`docker-compose up` alternativ mit: `docker-compose up --build`
+
+### Ich will es beenden
+
+`docker-compose down`
 
 ### notwendige Environment Variablen
 
@@ -23,7 +27,7 @@ eine wahrscheinliche Krankheit bestimmt.
 
 ### Technologien
 
-- Frontend: Flask
+- Frontend: Flask, Bootstrap
 - Backend: Flask
 - DB: SQLite
 - Docker
