@@ -16,10 +16,11 @@ def who_am_i_endpoint():
     :return: returns a json object
     """
     return jsonify({
-                       "message": "Welcome to the apis of the bad doctor! //further explanation//"
+                       "message": "Welcome to the apis of the bad doctor!",
+                        "/diagnosis/" : "this endpoint accepts a LlmRequestVO and returns a Diagnosis object"
     })  #TODO: add description of api endpoints
 
 
 @api_bp.route('/diagnosis/', methods=['POST'])
 def perform_main_llm_call_endpoint(llm_request_vo: LlmRequestVO):
-    return  perform_main_llm_call(llm_request_vo)#TODO implement dis shit
+    return  perform_main_llm_call(llm_request_vo)

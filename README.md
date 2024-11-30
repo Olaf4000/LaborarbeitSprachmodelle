@@ -2,6 +2,10 @@
 
 ## Initialisierung des Projektes
 
+### Ich will das nur starten was mach ich nu
+
+`docker-compose up`
+
 ### notwendige Environment Variablen
 
 Das Projekt setzt folgende Environment VVariable voraus:
