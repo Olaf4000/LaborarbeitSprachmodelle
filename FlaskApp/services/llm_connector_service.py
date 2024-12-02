@@ -4,19 +4,19 @@ import os
 import requests
 from flask.cli import load_dotenv
 from requests import Response
-from FlaskApp.value_objects.llm_vos.QueryVO import QueryVO
+from FlaskApp.value_objects.QueryVO import QueryVO
 
 load_dotenv()
 llm_uri_base_path = os.getenv("LLM_URI_BASE_PATH")
 open_ai_key = os.getenv('LLM_KEY')
 
 
-def send_query(query: QueryVO) -> Response:
+def send_query(system_role_content, user_role_content) -> Response:
     """
     function passes a query to the defined LLM Base Path (only tested with the openAI API)
-
-    :param query: instance of QueryVo
-    :return: response object
+    :param system_role_content:
+    :param user_role_content:
+    :return: response json
     """
     if open_ai_key is None:
         raise ValueError("No OpenAI API key provided")
@@ -26,19 +26,19 @@ def send_query(query: QueryVO) -> Response:
     }
 
     data = {
-        "model": query.ai_model,
+        "model": os.getenv("LLM_MODEL_NAME"),
         "messages": [
             {
                 "role": "system",
-                "content": query.system_role_content
+                "content": system_role_content
             },
             {
                 "role": "user",
-                "content": query.user_role_content
+                "content": user_role_content
             }
         ]
     }
 
     response = requests.post(llm_uri_base_path, headers=headers, json=data)
 
-    return response
+    return response.json()

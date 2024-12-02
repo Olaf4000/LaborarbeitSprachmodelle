@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, session
-from FlaskApp.value_objects.general_vos.DoctorPersonaVO import DoctorPersonaVO
+from flask import Blueprint, render_template
+from FlaskApp.value_objects.DoctorPersonaVO import DoctorPersonaVO
 
 doctors_bp = Blueprint('doctors', __name__)
 
