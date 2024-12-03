@@ -27,7 +27,6 @@ def perform_main_llm_call_endpoint():
     """
     try:
         llm_request_vo = request.json
-
     except: #TODO: fix dis
         return jsonify({
             "error" : "Please provide a valid json object",

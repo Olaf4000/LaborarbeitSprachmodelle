@@ -4,7 +4,6 @@ import os
 import requests
 from flask.cli import load_dotenv
 from requests import Response
-from FlaskApp.value_objects.QueryVO import QueryVO
 
 load_dotenv()
 llm_uri_base_path = os.getenv("LLM_URI_BASE_PATH")

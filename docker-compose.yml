@@ -3,11 +3,10 @@ version: '3.9'
 services:
   app:
     build:
-      context: .  # Verwendet das Dockerfile im aktuellen Verzeichnis
-    volumes:
-      - ./database:/FlaskApp/database  # Datenbankverzeichnis ins Container-Verzeichnis mounten
+      context: ./FlaskApp  # Verwendet das Dockerfile im aktuellen Verzeichnis
+
     ports:
-      - "5000:5000"  # Flask-App ist auf localhost:5000 erreichbar
+      - "5001:5000"  # Flask-App ist auf localhost:5000 erreichbar
     environment:
       - FLASK_ENV=development  # Flask im Entwicklungsmodus starten
     command: python app.py
