@@ -5,7 +5,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask.cli import load_dotenv
 
-from api.api import api_bp
+from api.api_controller import api_bp
 from routes.test import test_bp
 from routes.diagnosis import diagnosis_bp
 from routes.recommendations import recommendations_bp

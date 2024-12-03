@@ -1,7 +1,8 @@
 from flask import jsonify, Blueprint, request
 
-from FlaskApp.api.controller import perform_main_llm_call, perform_simple_llm_call
 from FlaskApp.value_objects.LlmRequestVO import LlmRequestVO
+
+from services import api_service
 
 api_bp = Blueprint('api', __name__)
 
@@ -9,14 +10,10 @@ api_bp = Blueprint('api', __name__)
 @api_bp.route('/', methods=['GET'])
 def who_am_i_endpoint():
     """
-    returns a json object containing information about the endpoints used to control the app with only the api
-    :return: returns a json object
+    Provide Metadata and Usage Information.
     """
-    return jsonify({
-        "message": "Welcome to the apis of the bad doctor!",
-        "/diagnosis/" : "this endpoint accepts a LlmRequestVO and returns a Diagnosis object",
-        "/simple/" : "passe the provides prompt to the LLM"
-    })  #TODO: add description of api endpoints
+    return api_service.who_am_i()
+
 
 
 @api_bp.route('/diagnosis/', methods=['POST'])
@@ -32,7 +29,7 @@ def perform_main_llm_call_endpoint():
             "error" : "Please provide a valid json object",
         })
 
-    return  perform_main_llm_call(llm_request_vo)
+    return  api_service.perform_main_llm_call(llm_request_vo)
 
 
 @api_bp.route('/simple/', methods=['POST'])
@@ -48,4 +45,4 @@ def perform_simple_llm_call_endpoint():
             "error": "No content provided or in the wrong format"
         })
 
-    return perform_simple_llm_call(llm_prompt)
+    return api_service.perform_simple_llm_call(llm_prompt)
