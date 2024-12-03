@@ -6,50 +6,49 @@
 
 {% block body %}
 
-{% if pagemode == 'home_diagnosis' %}
-    <div class="container mt-5">
-        <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
-        <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
-            <!-- Name und Alter in einer Zeile -->
-            <div class="mb-3 row">
-                <!-- Name -->
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Name eingeben" required>
-                </div>
-
-                <!-- Alter -->
-                <div class="col-md-6">
-                    <label for="age" class="form-label">Alter</label>
-                    <input type="number" id="age" name="age" class="form-control" placeholder="Alter eingeben" required>
-                </div>
+<div class="container mt-5">
+    <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
+    <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
+        <!-- Name und Alter in einer Zeile -->
+        <div class="mb-3 row">
+        <!-- Name -->
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Name eingeben" required>
             </div>
 
-            <!-- Geschlecht -->
-            <div class="mb-3">
-                <label for="gender" class="form-label">Geschlecht</label>
-                <select id="gender" name="gender" class="form-select" required>
-                    <option value="" disabled selected>Geschlecht auswählen</option>
-                    <option value="male">männlich</option>
-                    <option value="female">weiblich</option>
-                    <option value="other">anderes</option>
-                </select>
+            <!-- Alter -->
+            <div class="col-md-6">
+                <label for="age" class="form-label">Alter</label>
+                <input type="number" id="age" name="age" class="form-control" placeholder="Alter eingeben" required>
             </div>
+        </div>
 
-            <!-- Symptome und Familiäre Krankheiten in einer Zeile -->
-            <div class="mb-3 row">
-                <!-- Symptome -->
-                <div class="col-md-6">
-                    <label for="symptoms" class="form-label">Symptome</label>
-                    <textarea id="symptoms" name="symptoms" class="form-control" rows="4" placeholder="Beschreibe deine Symptome ausführlich und detailliert" required></textarea>
-                </div>
+        <!-- Geschlecht -->
+        <div class="mb-3">
+            <label for="gender" class="form-label">Geschlecht</label>
+            <select id="gender" name="gender" class="form-select" required>
+                <option value="" disabled selected>Geschlecht auswählen</option>
+                <option value="male">männlich</option>
+                <option value="female">weiblich</option>
+                <option value="other">anderes</option>
+            </select>
+        </div>
 
-                <!-- Familiäre Krankheiten -->
-                <div class="col-md-6">
-                    <label for="family_diseases" class="form-label">Familiäre Krankheiten</label>
-                    <textarea id="family_diseases" name="family_diseases" class="form-control" rows="4" placeholder="Liste bekannte familiäre Krankheiten auf (falls zutreffend)"></textarea>
-                </div>
-            </div>
+        <!-- Symptome und Familiäre Krankheiten in einer Zeile -->
+        <div class="mb-3 row">
+            <!-- Symptome -->
+            <div class="col-md-6">
+                <label for="symptoms" class="form-label">Symptome</label>
+                <textarea id="symptoms" name="symptoms" class="form-control" rows="4" placeholder="Beschreibe deine Symptome ausführlich und detailliert" required></textarea>
+        </div>
+
+        <!-- Familiäre Krankheiten -->
+        <div class="col-md-6">
+            <label for="family_diseases" class="form-label">Familiäre Krankheiten</label>
+                <textarea id="family_diseases" name="family_diseases" class="form-control" rows="4" placeholder="Liste bekannte familiäre Krankheiten auf (falls zutreffend)"></textarea>
+        </div>
+        </div>
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">Diagnose erstellen</button>
@@ -58,21 +57,5 @@
         <!-- Button zur Weiterleitung auf die Ergebnisse-Seite -->
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('diagnosis.results') }}'">!!!Debug!!! Ergebnisse der Diagnose</button>
     </div>
-{% elif pagemode == 'results_diagnosis' %}
-    <div class="container mt-5">
-        <h2>Deine Diagnose Ergebnisse</h2>
-
-        <!-- Todo: Informationen und Diagnosen anzeigen und Arztliste generieren bzw. eingrenzen auf die relevanten -->
-
-        <p><strong>Diagnose:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p><strong>Wie geht es weiter?:</strong> Weitere Informationen werden hier angezeigt.</p>
-         <!-- Link zu den Ärzten -->
-        <a href="{{ url_for('doctors.doctors') }}" class="btn btn-primary mt-4">Arztliste ansehen</a>
-    </div>
-{% else %}
-    <div class="container mt-5">
-        <p class="alert alert-danger">Fehler beim Laden der Seite.</p>
-    </div>
-{% endif %}
 
 {% endblock %}

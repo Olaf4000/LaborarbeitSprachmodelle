@@ -1,0 +1,13 @@
+<div class="container mt-5">
+  <h2>Deine Diagnose Ergebnisse</h2>
+
+{% if diagnosis is not None %}
+
+  <p><strong>Diagnose:</strong> {{ diagnosis }}</p>
+</div>
+{% else %}
+<div class="container mt-5">
+    <p class="alert alert-danger">Fehler beim Laden der Seite.</p>
+</div>
+
+{% endif %}

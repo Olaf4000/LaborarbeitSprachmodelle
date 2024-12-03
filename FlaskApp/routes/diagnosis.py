@@ -13,7 +13,10 @@ routes for diagnosis
 
 @diagnosis_bp.route('/')
 def diagnosis():
-    return render_template('diagnosis.html', mode='home_diagnosis')
+
+    session.clear()
+
+    return render_template('diagnosis.html', pagemode='home_diagnosis')
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
@@ -30,7 +33,6 @@ def submit_diagnosis():
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
 
-    # TODO patientVO erstellen
     patient_vo = PatientVO(
         name=session.get('name'),
         age=session.get('age'),
@@ -40,10 +42,8 @@ def submit_diagnosis():
     )
 
     doctor_vo = DoctorPersonaVO(
-        name='Alex Podolski',
-        medical_specialty='Allgemeinmedizin',
-        place_of_doctors_office='Berlin',
-        opening_hours='9:00 Uhr - 15:00 Uhr'
+        name='Lukas Podolski',
+        medical_specialty='Allgemeinmedizin'
     )
 
     llm_request_vo = LlmRequestVO(person_vo=patient_vo,
@@ -56,11 +56,7 @@ def submit_diagnosis():
 
 @diagnosis_bp.route('/results')
 def results():
-    diagnosis = session.get('diagnosis_results')
 
-    if diagnosis is not None or diagnosis != '':
-        mode = 'results_diagnosis'
-    else:
-        mode = 'home_diagnosis'
+    diagnosis_result = session.get('diagnosis_results')
 
-    return render_template('diagnosis.html', pagemode=mode, diagnosis=diagnosis)
+    return render_template('diagnosisresults.html', diagnosis=diagnosis_result)
