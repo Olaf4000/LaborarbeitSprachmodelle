@@ -6,7 +6,7 @@
 
 {% block body %}
 
-{% if mode == 'home_diagnosis' %}
+{% if pagemode == 'home_diagnosis' %}
     <div class="container mt-5">
         <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
         <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
@@ -58,7 +58,7 @@
         <!-- Button zur Weiterleitung auf die Ergebnisse-Seite -->
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('diagnosis.results') }}'">!!!Debug!!! Ergebnisse der Diagnose</button>
     </div>
-{% elif mode == 'results_diagnosis' %}
+{% elif pagemode == 'results_diagnosis' %}
     <div class="container mt-5">
         <h2>Deine Diagnose Ergebnisse</h2>
 

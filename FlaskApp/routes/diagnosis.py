@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import time
+from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
+from FlaskApp.services import api_service
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
 
@@ -15,8 +17,6 @@ def diagnosis():
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
-    from FlaskApp.app import db, User, Diagnosis  # Importiere hier, um zirkuläre Importe zu verhindern
-
     if not request.form['age'].isdigit():
         flash('Please enter a valid age', 'error')
         return redirect(url_for('diagnosis.diagnosis'))
@@ -30,37 +30,37 @@ def submit_diagnosis():
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
 
-    print(session.get('name'), session.get('age'), session.get('gender'), session.get('symptoms'), session.get('family_diseases'))
+    # TODO patientVO erstellen
+    patient_vo = PatientVO(
+        name=session.get('name'),
+        age=session.get('age'),
+        gender=session.get('gender'),
+        symptoms=session.get('symptoms'),
+        family_medical_history=session.get('family_diseases')
+    )
 
-    # Todo --> es funktioniert noch nicht und try catch ist nur das die App nicht abstürzt
-    # Erstelle einen neuen User
-    try:
-        new_user = User(age=session['age'], gender=session['gender'], symptoms=session['symptoms'])
-        db.session.add(new_user)
-        db.session.commit()  # Speichern des Users
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Fehler beim Speichern des Users: {str(e)}', 'error')
-        return redirect(url_for('diagnosis.diagnosis'))
+    doctor_vo = DoctorPersonaVO(
+        name='Alex Podolski',
+        medical_specialty='Allgemeinmedizin',
+        place_of_doctors_office='Berlin',
+        opening_hours='9:00 Uhr - 15:00 Uhr'
+    )
 
-    # Todo --> es funktioniert noch nicht und try catch ist nur das die App nicht abstürzt
-    # Optional: Diagnose hinzufügen
-    try:
-        diagnosis_text = "Diagnose basierend auf den Symptomen"
-        new_diagnosis = Diagnosis(user_id=new_user.id, diagnosis=diagnosis_text)
-        db.session.add(new_diagnosis)
-        db.session.commit()  # Speichern der Diagnose
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Fehler beim Speichern der Diagnose: {str(e)}', 'error')
-        return redirect(url_for('diagnosis.diagnosis'))
+    llm_request_vo = LlmRequestVO(person_vo=patient_vo,
+                                  doctor_person_vo=doctor_vo
+                                  )
 
-    #session['diagnosis'] = ...  # API Aufruf
-    time.sleep(3)
+    session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
 
     return redirect(url_for('diagnosis.results'))
 
 @diagnosis_bp.route('/results')
 def results():
+    diagnosis = session.get('diagnosis_results')
 
-    return render_template('diagnosis.html', mode='results_diagnosis')
+    if diagnosis is not None or diagnosis != '':
+        mode = 'results_diagnosis'
+    else:
+        mode = 'home_diagnosis'
+
+    return render_template('diagnosis.html', pagemode=mode, diagnosis=diagnosis)
