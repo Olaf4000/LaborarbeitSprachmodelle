@@ -3,9 +3,8 @@ Ja Bober das is net wirklich n controller aber wie zum Pferd soll ich dit denne 
 """
 from FlaskApp.value_objects import LlmRequestVO
 
-from FlaskApp.value_objects.DoctorPersonaVO import DoctorPersonaVO
-from FlaskApp.value_objects.PatientVO import PatientVO
 from FlaskApp.services.llm_connector_service import send_query
+from FlaskApp.services.llm_prompt_builder_service import build_user_prompt, build_system_prompt
 
 
 def perform_simple_llm_call(prompt):
@@ -25,11 +24,8 @@ def perform_main_llm_call(llm_request_vo: LlmRequestVO):
     :return: response of the llm as a text
     """
 
-    patient_vo: PatientVO = llm_request_vo.patient_vo
-    doctor_persona_vo: DoctorPersonaVO = llm_request_vo.doctor_persona_vo
-
-    system_content = "" #TODO: implement dis shit
-    user_content = ""
+    system_content = build_system_prompt(llm_request_vo.doctor_persona_vo)
+    user_content = build_user_prompt(llm_request_vo.patient_vo)
 
     return send_query(system_content, user_content)
 
