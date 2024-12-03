@@ -14,7 +14,7 @@ routes for diagnosis
 @diagnosis_bp.route('/')
 def diagnosis():
 
-    session.clear()
+    clear_except_flashes()
 
     return render_template('diagnosis.html', pagemode='home_diagnosis')
 
@@ -46,11 +46,15 @@ def submit_diagnosis():
         medical_specialty='Allgemeinmedizin'
     )
 
-    llm_request_vo = LlmRequestVO(person_vo=patient_vo,
-                                  doctor_person_vo=doctor_vo
+    llm_request_vo = LlmRequestVO(patient_vo=patient_vo,
+                                  doctor_persona_vo=doctor_vo
                                   )
-
-    session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
+    try:
+        session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
+    except ValueError as e:
+        print("ERROR: " + str(e))
+        flash("ERROR: " + str(e))
+        return redirect('/diagnosis')
 
     return redirect(url_for('diagnosis.results'))
 
@@ -60,3 +64,9 @@ def results():
     diagnosis_result = session.get('diagnosis_results')
 
     return render_template('diagnosisresults.html', diagnosis=diagnosis_result)
+
+def clear_except_flashes():
+    keys_to_keep = ['_flashes']
+    for key in list(session.keys()):
+        if key not in keys_to_keep:
+            session.pop(key)
