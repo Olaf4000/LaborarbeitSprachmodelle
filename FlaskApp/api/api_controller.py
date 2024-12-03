@@ -2,7 +2,7 @@ from flask import jsonify, Blueprint, request
 
 from FlaskApp.value_objects.LlmRequestVO import LlmRequestVO
 
-from services import api_service
+from FlaskApp.services import api_service
 
 api_bp = Blueprint('api', __name__)
 

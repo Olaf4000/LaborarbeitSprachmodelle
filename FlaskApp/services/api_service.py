@@ -2,8 +2,8 @@ from flask import jsonify
 
 from FlaskApp.value_objects import LlmRequestVO
 
-import llm_connector_service as conn
-import llm_prompt_builder_service as builder
+import FlaskApp.services.llm_connector_service as conn
+import FlaskApp.services.llm_prompt_builder_service as builder
 
 def who_am_i():
     """
