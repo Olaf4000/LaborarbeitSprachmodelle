@@ -15,10 +15,3 @@ class PatientVO:
         self.gender = gender
         self.symptoms = symptoms
         self.family_medical_history = family_medical_history
-
-    def __call__(self, name, age, gender, symptoms, family_medical_history):
-        self.name = name
-        self.age = age
-        self.gender = gender
-        self.symptoms = symptoms
-        self.family_medical_history = family_medical_history
