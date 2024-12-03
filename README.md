@@ -6,7 +6,7 @@
 
 `docker-compose up` alternativ mit: `docker-compose up --build`
 
-### Ich will es beenden
+### Ich will das es aufhört
 
 `docker-compose down`
 
@@ -36,13 +36,13 @@ eine wahrscheinliche Krankheit bestimmt.
 
 ### Aufgabenverteilung
 
-| Person | Aufgaben |
-|--------|----------|
-| Marc   | Auswahl KI Modell, testen des KI Modells, |
-| Eric   | Flask Backend, Datenbank |
-| Kurt   | Auswahl KI Modell, testen des KI Modells, |
-| Nico   | GUI, Präsentation, Docker |
-| Daniel | Backend, Präsentation, Datenbank, Docker |
+| Person | Aufgaben                                             |
+|--------|------------------------------------------------------|
+| Marc   | Auswahl KI Modell, testen des KI Modells,            |
+| Eric   | Flask Backend, Datenbank                             |
+| Kurt   | Auswahl KI Modell, testen des KI Modells, Unit Tests |
+| Nico   | GUI, Präsentation, Docker                            |
+| Daniel | Backend, Präsentation, Datenbank, Docker             |
 
 ### Projekt aufsetzen
 1. venv erstellen mit `pyhton -m venv myENV` und aktivieren mit (MAC)`source myENV/bin/activate`
