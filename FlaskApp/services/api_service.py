@@ -14,7 +14,7 @@ def who_am_i():
         "message": "Welcome to the apis of the bad doctor!",
         "/diagnosis/" : "this endpoint accepts a LlmRequestVO and returns a Diagnosis object",
         "/simple/" : "passe the provides prompt to the LLM"
-    })  #TODO: add description of api endpoints
+    })
     
 def perform_simple_llm_call(prompt):
     """
@@ -33,7 +33,8 @@ def perform_main_llm_call(llm_request_vo: LlmRequestVO):
     :return: response of the llm as a text
     """
 
-    system_content = builder.build_system_prompt(llm_request_vo.doctor_persona_vo)
-    user_content = builder.build_user_prompt(llm_request_vo.patient_vo)
+    return conn.send_query(
+        builder.build_system_prompt(llm_request_vo.doctor_persona_vo),
+        builder.build_user_prompt(llm_request_vo.patient_vo)
+    )
 
-    return conn.send_query(system_content, user_content)
