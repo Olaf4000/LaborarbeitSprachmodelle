@@ -51,6 +51,7 @@ def submit_diagnosis():
                                   )
     try:
         session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
+        print(session.get('diagnosis_results'))
     except ValueError as e:
         print("ERROR: " + str(e))
         flash("ERROR: " + str(e))
