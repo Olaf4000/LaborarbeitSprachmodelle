@@ -38,14 +38,14 @@ eine wahrscheinliche Krankheit bestimmt.
 
 | Person | Aufgaben                                             |
 |--------|------------------------------------------------------|
-| Marc   | Auswahl KI Modell, testen des KI Modells,            |
+| Marc   | testen des KI Modells,                               |
 | Eric   | Flask Backend, Datenbank                             |
-| Kurt   | Auswahl KI Modell, testen des KI Modells, Unit Tests |
+| Kurt   | Testing, Miscellaneous                               |
 | Nico   | GUI, Präsentation, Docker                            |
 | Daniel | Backend, Präsentation, Datenbank, Docker             |
 
 ### Projekt aufsetzen
-1. venv erstellen mit `pyhton -m venv myENV` und aktivieren mit (MAC)`source myENV/bin/activate`
+1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
 2. Dependencies installieren mit `pip install -r requirements.txt`
 
 
