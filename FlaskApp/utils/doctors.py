@@ -12,11 +12,11 @@ def load_single_doctor_as_vo(id):
         doctors = json.load(file)
 
     for doctor in doctors:
-        if doctor["id"] == id:
+        if doctor['id'] == id:
             DoctorPersonaVO(id=doctor["id"], name=doctor["name"], medical_specialty=doctor["specialization"])
             return doctor
-        else:
-            return ValueError(f"Could not find doctor. ID: {id}")
+
+    return ValueError(f"Could not find doctor. ID: {id}")
 
 def get_config_path():
     base_dir = os.path.abspath(os.path.dirname(__file__))

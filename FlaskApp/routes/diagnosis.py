@@ -44,7 +44,7 @@ def submit_diagnosis():
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
-    session['doctor_id'] = request.form['doctor']
+    session['doctor_id'] = request.form['doctors']
 
     patient_vo = PatientVO(
         name=session.get('name'),
@@ -56,7 +56,8 @@ def submit_diagnosis():
 
     try:
         print("TryCatch")
-        doctor_vo = load_single_doctor_as_vo(id)
+        #doctor_vo = load_single_doctor_as_vo(id) #TODO: Bidde Wurst around entförnsen
+        doctor_vo = DoctorPersonaVO("1", "Kai", "Proktologe")
     except ValueError as e:
         flash("ERROR: " + str(e))
         return redirect('/diagnosis')
@@ -65,6 +66,7 @@ def submit_diagnosis():
     llm_request_vo = LlmRequestVO(patient_vo=patient_vo,
                                   doctor_persona_vo=doctor_vo
                                   )
+
     try:
         session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
         print(session.get('diagnosis_results'))

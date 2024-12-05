@@ -1,3 +1,5 @@
+import json
+
 from flask import jsonify
 
 from FlaskApp.value_objects import LlmRequestVO
@@ -23,7 +25,10 @@ def perform_simple_llm_call(prompt):
     :return: response of the llm as a text
     """
 
-    return conn.send_query("You are a helpful assistant.", prompt)
+    llm_response = conn.send_query("You are a helpful assistant.", prompt).json()
+    daten = json.loads(llm_response)
+
+    return daten["Ergebnisse"]
 
 
 def perform_main_llm_call(llm_request_vo: LlmRequestVO):
