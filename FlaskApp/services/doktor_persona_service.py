@@ -1,3 +1,6 @@
+from flask import render_template
+
+from FlaskApp.routes.diagnosis import diagnosis_bp, clear_except_flashes
 from FlaskApp.value_objects import DoctorPersonaVO
 
 doctor1 = DoctorPersonaVO(1, "Mannfred Hausens", "Allgemeinmedizin")

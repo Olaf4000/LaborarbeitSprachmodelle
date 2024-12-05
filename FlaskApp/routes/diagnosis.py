@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import time
+
 from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
 from FlaskApp.services import api_service
 
@@ -13,10 +14,14 @@ routes for diagnosis
 
 @diagnosis_bp.route('/')
 def diagnosis():
+    # Lazy Loading, sonst zirkulärer Import
+    from FlaskApp.services.doktor_persona_service import get_all_doctor_personas
 
     clear_except_flashes()
 
-    return render_template('diagnosis.html', pagemode='home_diagnosis')
+    doctors = get_all_doctor_personas()
+
+    return render_template('diagnosis.html', pagemode='home_diagnosis', doctors=doctors)
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
