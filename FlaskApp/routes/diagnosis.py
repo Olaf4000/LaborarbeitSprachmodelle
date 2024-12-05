@@ -1,7 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import time, json
+
+from FlaskApp.utils.doctors import load_all_doctors, load_single_doctor_as_vo
+from FlaskApp.utils.session_functions import clear_except_flashes
 from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
 from FlaskApp.services import api_service
+import FlaskApp.utils
 import os
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
@@ -16,9 +20,15 @@ routes for diagnosis
 def diagnosis():
     clear_except_flashes()
 
+    default_doctor_id = 1
+
+    doctor_id_from_query = request.args.get('id', type=int)
+    if doctor_id_from_query:
+        default_doctor_id = doctor_id_from_query
+
     doctors = load_all_doctors()
 
-    return render_template('diagnosis.html', doctors=doctors)
+    return render_template('diagnosis.html', doctors=doctors, default_doctor_id=default_doctor_id)
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
@@ -34,7 +44,7 @@ def submit_diagnosis():
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
-    # session['doctor_id'] = request.form['doctor_id']
+    session['doctor_id'] = request.form['doctor']
 
     patient_vo = PatientVO(
         name=session.get('name'),
@@ -46,7 +56,7 @@ def submit_diagnosis():
 
     try:
         print("TryCatch")
-        # doctor_vo = load_single_doctor_as_vo(id)
+        doctor_vo = load_single_doctor_as_vo(id)
     except ValueError as e:
         flash("ERROR: " + str(e))
         return redirect('/diagnosis')
@@ -70,31 +80,3 @@ def results():
     diagnosis_result = session.get('diagnosis_results')
 
     return render_template('diagnosisresults.html', diagnosis=diagnosis_result)
-
-def clear_except_flashes():
-    keys_to_keep = ['_flashes']
-    for key in list(session.keys()):
-        if key not in keys_to_keep:
-            session.pop(key)
-
-def load_all_doctors():
-    with open(get_config_path(), 'r', encoding='utf-8') as file:
-        doctors = json.load(file)
-    return doctors
-
-def load_single_doctor_as_vo(id):
-    with open(get_config_path(), 'r', encoding='utf-8') as file:
-        doctors = json.load(file)
-
-    for doctor in doctors:
-        if doctor["id"] == id:
-            DoctorPersonaVO(id=doctor["id"], name=doctor["name"], medical_specialty=doctor["specialization"])
-            return doctor
-        else:
-            return ValueError(f"Could not find doctor. ID: {id}")
-
-def get_config_path():
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    config_path = os.path.join(base_dir, '..', 'config', 'doctors.json')
-
-    return config_path

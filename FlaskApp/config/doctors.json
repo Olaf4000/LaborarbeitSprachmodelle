@@ -2,51 +2,51 @@
     {
         "id": 1,
         "name": "Max Hubert",
-        "specialization": "Allgemeinmedizin"
+        "medical_specialty": "Allgemeinmedizin"
     },
     {
         "id": 2,
         "name": "Laura Schmidt",
-        "specialization": "Kardiologie"
+        "medical_specialty": "Kardiologie"
     },
     {
         "id": 3,
         "name": "Stefan Meier",
-        "specialization": "Orthopädie"
+        "medical_specialty": "Orthopädie"
     },
     {
         "id": 4,
         "name": "Anna Becker",
-        "specialization": "Dermatologie"
+        "medical_specialty": "Dermatologie"
     },
     {
         "id": 5,
         "name": "Peter Wagner",
-        "specialization": "Gastroenterologie"
+        "medical_specialty": "Gastroenterologie"
     },
     {
         "id": 6,
         "name": "Clara Fischer",
-        "specialization": "Neurologie"
+        "medical_specialty": "Neurologie"
     },
     {
         "id": 7,
         "name": "Johannes Müller",
-        "specialization": "Hals-Nasen-Ohren-Heilkunde (HNO)"
+        "medical_specialty": "Hals-Nasen-Ohren-Heilkunde (HNO)"
     },
     {
         "id": 8,
         "name": "Elena Braun",
-        "specialization": "Psychiatrie"
+        "medical_specialty": "Psychiatrie"
     },
     {
         "id": 9,
         "name": "Felix Koch",
-        "specialization": "Urologie"
+        "medical_specialty": "Urologie"
     },
     {
         "id": 10,
         "name": "Sophia Weber",
-        "specialization": "Gynäkologie"
+        "medical_specialty": "Gynäkologie"
     }
 ]

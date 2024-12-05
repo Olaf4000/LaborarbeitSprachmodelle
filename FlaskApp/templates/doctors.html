@@ -17,9 +17,7 @@
                         <div class="card-body">
                             <h5 class="card-title text-primary">{{ doctor.name }}</h5>
                             <p class="card-text"><strong>Fachrichtung:</strong> {{ doctor.medical_specialty }}</p>
-                            <p class="card-text"><strong>Praxisort:</strong> {{ doctor.place_of_doctors_office }}</p>
-                            <p class="card-text"><strong>Öffnungszeiten:</strong> {{ doctor.opening_hours }}</p>
-                            <a href="#" class="btn btn-primary">Mehr erfahren</a>
+                            <a href="/diagnosis?id={{ doctor.id }}" class="btn btn-primary">Chatte mit {{ doctor.name }}</a>
                         </div>
                     </div>
                 </div>

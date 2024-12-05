@@ -37,14 +37,12 @@
 
         <!-- Arzt Auswahl -->
         <div class="mb-3">
-            <label for="doctor" class="form-label">Von welchem Arzt möchten Sie eine Diagnose</label>
+            <label for="doctor" class="form-label">Von welchem GPT-Arzt möchten Sie eine Diagnose?</label>
             <select id="doctor" name="doctor" class="form-select" required>
-            <!-- Standardoption für den Allgemeinmediziner -->
-                <option value="default_general" selected>Default Allgemeinmediziner - Allgemeinmedizin</option>
-
-                <!-- Weitere Ärzte aus der Liste -->
                 {% for doctor in doctors %}
-                <option value="{{ doctor.id }}">{{ doctor.name }} - {{ doctor.medical_specialty }}</option>
+                    <option value="{{ doctor.id }}" {% if doctor.id == default_doctor_id %}selected{% endif %}>
+                        {{ doctor.name }} - {{ doctor.medical_specialty }}
+                    </option>
                 {% endfor %}
             </select>
         </div>
