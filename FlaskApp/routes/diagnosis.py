@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
-import time
+import time, json
 from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
 from FlaskApp.services import api_service
+import os
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
 
@@ -13,10 +14,11 @@ routes for diagnosis
 
 @diagnosis_bp.route('/')
 def diagnosis():
-
     clear_except_flashes()
 
-    return render_template('diagnosis.html', pagemode='home_diagnosis')
+    doctors = load_all_doctors()
+
+    return render_template('diagnosis.html', doctors=doctors)
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
@@ -32,6 +34,7 @@ def submit_diagnosis():
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
+    # session['doctor_id'] = request.form['doctor_id']
 
     patient_vo = PatientVO(
         name=session.get('name'),
@@ -41,10 +44,13 @@ def submit_diagnosis():
         family_medical_history=session.get('family_diseases')
     )
 
-    doctor_vo = DoctorPersonaVO(
-        name='Lukas Podolski',
-        medical_specialty='Allgemeinmedizin'
-    )
+    try:
+        print("TryCatch")
+        # doctor_vo = load_single_doctor_as_vo(id)
+    except ValueError as e:
+        flash("ERROR: " + str(e))
+        return redirect('/diagnosis')
+
 
     llm_request_vo = LlmRequestVO(patient_vo=patient_vo,
                                   doctor_persona_vo=doctor_vo
@@ -53,7 +59,6 @@ def submit_diagnosis():
         session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
         print(session.get('diagnosis_results'))
     except ValueError as e:
-        print("ERROR: " + str(e))
         flash("ERROR: " + str(e))
         return redirect('/diagnosis')
 
@@ -71,3 +76,25 @@ def clear_except_flashes():
     for key in list(session.keys()):
         if key not in keys_to_keep:
             session.pop(key)
+
+def load_all_doctors():
+    with open(get_config_path(), 'r', encoding='utf-8') as file:
+        doctors = json.load(file)
+    return doctors
+
+def load_single_doctor_as_vo(id):
+    with open(get_config_path(), 'r', encoding='utf-8') as file:
+        doctors = json.load(file)
+
+    for doctor in doctors:
+        if doctor["id"] == id:
+            DoctorPersonaVO(id=doctor["id"], name=doctor["name"], medical_specialty=doctor["specialization"])
+            return doctor
+        else:
+            return ValueError(f"Could not find doctor. ID: {id}")
+
+def get_config_path():
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    config_path = os.path.join(base_dir, '..', 'config', 'doctors.json')
+
+    return config_path
