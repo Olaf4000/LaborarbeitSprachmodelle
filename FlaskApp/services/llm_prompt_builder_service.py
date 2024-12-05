@@ -17,7 +17,7 @@ def build_user_prompt(patient_vo: PatientVO):
         "In seiner Familie sind folgende Erbkrankheiten bekannt: {" + patient_vo.family_medical_history + "}." +
         "Leite auf Basis deiner medizinischen Ausrichtung mögliche Erkrankungen ab und ordne ihnen mögliche Behandlungsmethoden zu." +
         "Gib auch eine Empfehlung ab an felchen Facharzt sich der Patient wenden sollte." +
-        "Gib dein Ergebnisse im JSON Format aus."
+        "Gib dein Ergebnisse im JSON Format und auf Deutsch aus."
     )
     #TODO: implement dis shit just for testing
     return user_prompt

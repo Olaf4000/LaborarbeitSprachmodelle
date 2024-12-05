@@ -1,7 +1,5 @@
-import llm_prompt_builder_service as prompt_builder
+import FlaskApp.services.llm_prompt_builder_service as prompt_builder
 import pytest
-
-
 
 @pytest.mark.parametrize(
     "input,expected",
