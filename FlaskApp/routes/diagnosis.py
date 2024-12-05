@@ -22,7 +22,7 @@ def diagnosis():
 
     default_doctor_id = 1
 
-    doctor_id_from_query = request.args.get('id', type=int)
+    doctor_id_from_query = request.args.get('doctor_id', type=int)
     if doctor_id_from_query:
         default_doctor_id = doctor_id_from_query
 
