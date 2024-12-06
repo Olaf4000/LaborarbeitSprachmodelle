@@ -40,7 +40,7 @@
             <label for="doctors" class="form-label">Von welchem GPT-Arzt möchten Sie eine Diagnose?</label>
             <select id="doctors" name="doctors" class="form-select" required>
                 {% for doctor in doctors %}
-                    <option value="{{ doctor.id }}" {% if doctor.id == default_doctor_id %}selected{% endif %}>
+                    <option value={{ doctor.id }} {% if doctor.id == default_doctor_id %}selected{% endif %}>
                         {{ doctor.name }} - {{ doctor.medical_specialty }}
                     </option>
                 {% endfor %}

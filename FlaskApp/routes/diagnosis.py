@@ -44,7 +44,14 @@ def submit_diagnosis():
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
-    session['doctor_id'] = request.form['doctors']
+    try:
+        session['doctor_id'] = int(request.form['doctors'])
+    except ValueError as e:
+        flash(f"ValueError: Ungültige Eingabe für 'doctors': {e}", "error")
+        return redirect(url_for('diagnosis.diagnosis'))
+    except KeyError as e:
+        flash(f"KeyError: Der Schlüssel 'doctors' fehlt in der Anfrage: {e}", "error")
+        return redirect(url_for('diagnosis.diagnosis'))
 
     patient_vo = PatientVO(
         name=session.get('name'),
@@ -54,10 +61,9 @@ def submit_diagnosis():
         family_medical_history=session.get('family_diseases')
     )
 
+
     try:
-        print("TryCatch")
-        #doctor_vo = load_single_doctor_as_vo(id) #TODO: Bidde Wurst around entförnsen
-        doctor_vo = DoctorPersonaVO("1", "Kai", "Proktologe")
+        doctor_vo = load_single_doctor_as_vo(session.get('doctor_id'))
     except ValueError as e:
         flash("ERROR: " + str(e))
         return redirect('/diagnosis')
