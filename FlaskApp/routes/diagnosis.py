@@ -7,6 +7,7 @@ from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
 from FlaskApp.services import api_service
 import FlaskApp.utils
 import os
+from dataclasses import dataclass
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
 
@@ -87,4 +88,20 @@ def results():
 
     diagnosis_result = session.get('diagnosis_results')
 
-    return render_template('diagnosisresults.html', diagnosis=diagnosis_result)
+    # Liste zur Speicherung von Diagnosen
+    diagnosis_list = []
+
+    # Definition der Datenstruktur
+    @dataclass
+    class Diagnosis:
+        diagnose: str
+        eintrittswahrscheinlichkeit: str
+        empfohlener_facharzt: str
+
+    # Objekte auslesen und der Liste hinzufügen
+    for result in diagnosis_result['Ergebnisse']:
+        diagnosis_obj = Diagnosis(result['Diagnose'], result['Eintrittswahrscheinlichkeit'], result['EmpfohlenerFacharzt'])
+        diagnosis_list.append(diagnosis_obj)
+
+    # Daten der HTML-Seite übergeben
+    return render_template('diagnosisresults.html', diagnosis_list=diagnosis_list)

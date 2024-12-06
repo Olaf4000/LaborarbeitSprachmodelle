@@ -1,13 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ1QJQ57lXrDvhWPII75P4rwAdC14aG0s0+qKqsTp3wR6zrlDnoWQAlFpm9Z" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+
 <div class="container mt-5">
-  <h2>Deine Diagnose Ergebnisse</h2>
+    <h2 class="mb-4">Deine Diagnose Ergebnisse</h2>
 
-{% if diagnosis is not none %}
+    {% if diagnosis_list %}
+        <!-- Tabelle für die Diagnoseergebnisse -->
+        <table class="table table-hover table-bordered table-striped">
+            <!-- Spaltenüberschriften -->
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Diagnose</th>
+                    <th scope="col">Eintrittswahrscheinlichkeit</th>
+                    <th scope="col">Empfohlener Facharzt</th>
+                </tr>
+            </thead>
+            <!-- Spalteninhalte -->
+            <tbody>
+                {% for diagnosis_item in diagnosis_list %}
+                    <tr class="text-center">
+                        <td>{{ diagnosis_item.diagnose }}</td>
+                        <td>
+                            {% if diagnosis_item.eintrittswahrscheinlichkeit == 'Hoch' %}
+                                <span class="badge bg-danger">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
+                            {% elif diagnosis_item.eintrittswahrscheinlichkeit == 'Mittel' %}
+                                <span class="badge bg-warning">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
+                            {% else %}
+                                <span class="badge bg-success">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ diagnosis_item.empfohlener_facharzt }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <!-- Fehlerfall, wenn keine Diagnosen vorhanden sind -->
+        <div class="alert alert-danger">
+            <strong>Fehler:</strong> Es gab ein Problem beim Laden deiner Diagnose.
+        </div>
+    {% endif %}
 
-  <p><strong>Diagnose:</strong> {{ diagnosis }}</p>
+    <!-- Button zur Weiterleitung auf die Ärzte Seite -->
+    <div class="d-flex justify-content-center mt-5">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('doctors.doctors') }}'">Ärzteübersicht</button>
+    </div>
 </div>
-{% else %}
-<div class="container mt-5">
-    <p class="alert alert-danger">Fehler beim Laden deiner Diagnose</p>
-</div>
 
-{% endif %}
+{% endblock %}
