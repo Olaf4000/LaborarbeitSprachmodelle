@@ -83,7 +83,7 @@ def submit_diagnosis():
 
     return redirect(url_for('diagnosis.results'))
 
-@diagnosis_bp.route('/results')
+@diagnosis_bp.route('/results', methods=['GET', 'POST'])
 def results():
 
     diagnosis_result = session.get('diagnosis_results')
@@ -103,5 +103,22 @@ def results():
         diagnosis_obj = Diagnosis(result['Diagnose'], result['Eintrittswahrscheinlichkeit'], result['EmpfohlenerFacharzt'])
         diagnosis_list.append(diagnosis_obj)
 
+    response_text = None
+    error_message = None
+
+    if request.method == 'POST':
+        # Prüfen, ob Rückfrage abgesendet
+        if 'submit_question' in request.form and request.form['submit_question'] == 'true':
+            # Frage des Users ist in user_question abgespeichert
+            user_question = request.form.get('user_question', '').strip()
+
+            # Wenn Nutzer nichts gefragt hat aber submitted hat
+            if not user_question:
+                # Nachricht, die auf der Seite angezeigt wird
+                error_message = "Bitte gib eine Rückfrage ein, bevor du sie absendest."
+            else:
+                # Todo Antworttext basierend auf der Frage setzen => LLM Call
+                response_text = f"Vielen Dank für deine Rückfrage: '{user_question}'. Wir kümmern uns darum!"
+
     # Daten der HTML-Seite übergeben
-    return render_template('diagnosisresults.html', diagnosis_list=diagnosis_list)
+    return render_template('diagnosisresults.html', diagnosis_list=diagnosis_list, response_text=response_text, error_message=error_message)
