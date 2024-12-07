@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import time, json
 
+from FlaskApp.utils.json_functions import extract_content
 from FlaskApp.utils.doctors import load_all_doctors, load_single_doctor_as_vo
 from FlaskApp.utils.session_functions import clear_except_flashes
 from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
@@ -75,10 +76,26 @@ def submit_diagnosis():
                                   )
 
     try:
-        session['diagnosis_results'] = api_service.perform_main_llm_call(llm_request_vo)
-        print(session.get('diagnosis_results'))
+        llm_response = api_service.perform_main_llm_call(llm_request_vo)
+        print(llm_response)
     except ValueError as e:
         flash("ERROR: " + str(e))
+        return redirect('/diagnosis')
+    except Exception as e:
+        flash("An unexpected error occurred while processing the response. Details: " + str(e))
+        return redirect('/diagnosis')
+
+    try:
+        session['diagnosis_results'] = extract_content(llm_response)
+        print(session.get('diagnosis_results'))
+    except KeyError as e:
+        flash("KeyError: Missing expected data in the response. Details: " + str(e))
+        return redirect('/diagnosis')
+    except json.JSONDecodeError as e:
+        flash("JSON Error: Failed to parse response content. Details: " + str(e))
+        return redirect('/diagnosis')
+    except Exception as e:
+        flash("An unexpected error occurred while processing the response. Details: " + str(e))
         return redirect('/diagnosis')
 
     return redirect(url_for('diagnosis.results'))

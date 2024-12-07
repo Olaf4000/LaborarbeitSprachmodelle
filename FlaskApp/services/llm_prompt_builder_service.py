@@ -20,7 +20,8 @@ def build_user_prompt(patient_vo: PatientVO):
         "Gib dein Ergebnisse im JSON Format und auf Deutsch aus." +
         "Dieses soll eine Liste aus Objekten enthalten, die die folgenden Parameter enthalten: Diagnose, Eintrittswahrscheinlichkeit, MöglicheBehandlung, EmpfohlenerFacharzt." +
         "Diese Ausgegebene Liste soll Ergebnisse heißen." +
-        "Wähle den EmpfohlenenArzt aus den folgenden Fachrichtungen aus: Allgemeinmediziner, Kardiologe, Orthopädie, Dermatologie, Gastroenterologie, Neurologie, Hals-Nasen-Ohren-Heilkunde (HNO), Psychiatrie, Urologie, Gynäkologie"
+        "Wähle den EmpfohlenenArzt aus den folgenden Fachrichtungen aus: Allgemeinmediziner, Kardiologe, Orthopädie, Dermatologie, Gastroenterologie, Neurologie, Hals-Nasen-Ohren-Heilkunde (HNO), Psychiatrie, Urologie, Gynäkologie" +
+        "Die Antwort soll ausschließlich aus der JSON-Datenstruktur bestehen."
     )
     #TODO: implement dis shit just for testing
     return user_prompt
