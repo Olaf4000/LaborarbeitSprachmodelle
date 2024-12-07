@@ -100,42 +100,41 @@ def submit_diagnosis():
 
     return redirect(url_for('diagnosis.results'))
 
-@diagnosis_bp.route('/results', methods=['GET', 'POST'])
+@diagnosis_bp.route('/results', methods=['GET'])
 def results():
+    """
+    Displays the diagnosis results and handles status messages (response and error messages)
+    stored in the Flask session.
 
+    Returns:
+        Rendered HTML page with diagnosis data, a possible response message, and an error message.
+    """
     diagnosis_result = session.get('diagnosis_results')
+    diagnosis_list = diagnosis_result.get('Ergebnisse', []) if diagnosis_result else []
 
-    # Liste zur Speicherung von Diagnosen
-    diagnosis_list = []
+    response_text = session.pop('response_text', None)
+    error_message = session.pop('error_message', None)
 
-    # Definition der Datenstruktur
-    @dataclass
-    class Diagnosis:
-        diagnose: str
-        eintrittswahrscheinlichkeit: str
-        empfohlener_facharzt: str
-
-    # Objekte auslesen und der Liste hinzufügen
-    for result in diagnosis_result['Ergebnisse']:
-        diagnosis_obj = Diagnosis(result['Diagnose'], result['Eintrittswahrscheinlichkeit'], result['EmpfohlenerFacharzt'])
-        diagnosis_list.append(diagnosis_obj)
-
-    response_text = None
-    error_message = None
-
-    if request.method == 'POST':
-        # Prüfen, ob Rückfrage abgesendet
-        if 'submit_question' in request.form and request.form['submit_question'] == 'true':
-            # Frage des Users ist in user_question abgespeichert
-            user_question = request.form.get('user_question', '').strip()
-
-            # Wenn Nutzer nichts gefragt hat aber submitted hat
-            if not user_question:
-                # Nachricht, die auf der Seite angezeigt wird
-                error_message = "Bitte gib eine Rückfrage ein, bevor du sie absendest."
-            else:
-                # Todo Antworttext basierend auf der Frage setzen => LLM Call
-                response_text = f"Vielen Dank für deine Rückfrage: '{user_question}'. Wir kümmern uns darum!"
-
-    # Daten der HTML-Seite übergeben
     return render_template('diagnosisresults.html', diagnosis_list=diagnosis_list, response_text=response_text, error_message=error_message)
+
+@diagnosis_bp.route('/post_feedback', methods=['POST'])
+def post_feedback():
+    """
+    Processes user feedback or follow-up questions and stores the resulting messages in the Flask session.
+    Redirects back to the results page after handling the input.
+
+    Returns:
+        Redirect to the `/results` route.
+    """
+    if 'diagnosis_results' not in session:
+        session['error_message'] = "Error: No diagnosis data available."
+        return redirect('/results')
+
+    user_question = request.form.get('user_question', '').strip()
+
+    if not user_question:
+        session['error_message'] = "Please enter a follow-up question before submitting."
+    else:
+        session['response_text'] = f"Thank you for your question: '{user_question}'. We will address it shortly!"
+
+    return redirect('/results')

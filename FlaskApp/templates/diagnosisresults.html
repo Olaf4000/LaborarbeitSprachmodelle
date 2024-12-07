@@ -12,7 +12,7 @@
     {% if diagnosis_list %}
         <!-- Tabelle für die Diagnoseergebnisse -->
         <table class="table table-hover table-bordered table-striped">
-            <!-- Spaltenüberschriften -->
+            <!-- Column headers -->
             <thead class="thead-light">
                 <tr>
                     <th scope="col">Diagnose</th>
@@ -20,21 +20,21 @@
                     <th scope="col">Empfohlener Facharzt</th>
                 </tr>
             </thead>
-            <!-- Spalteninhalte -->
+            <!-- Column contents -->
             <tbody>
                 {% for diagnosis_item in diagnosis_list %}
                     <tr class="text-center">
-                        <td>{{ diagnosis_item.diagnose }}</td>
+                        <td>{{ diagnosis_item['Diagnose'] }}</td>
                         <td>
-                            {% if diagnosis_item.eintrittswahrscheinlichkeit == 'Hoch' %}
-                                <span class="badge bg-danger">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
-                            {% elif diagnosis_item.eintrittswahrscheinlichkeit == 'Mittel' %}
-                                <span class="badge bg-warning">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
+                            {% if diagnosis_item['Eintrittswahrscheinlichkeit'] == 'Hoch' %}
+                                <span class="badge bg-danger">{{ diagnosis_item['Eintrittswahrscheinlichkeit'] }}</span>
+                            {% elif diagnosis_item['Eintrittswahrscheinlichkeit'] == 'Mittel' %}
+                                <span class="badge bg-warning">{{ diagnosis_item['Eintrittswahrscheinlichkeit'] }}</span>
                             {% else %}
-                                <span class="badge bg-success">{{ diagnosis_item.eintrittswahrscheinlichkeit }}</span>
+                                <span class="badge bg-success">{{ diagnosis_item['Eintrittswahrscheinlichkeit'] }}</span>
                             {% endif %}
                         </td>
-                        <td>{{ diagnosis_item.empfohlener_facharzt }}</td>
+                        <td>{{ diagnosis_item['EmpfohlenerFacharzt'] }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
