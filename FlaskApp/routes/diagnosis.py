@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import time, json
 
-from FlaskApp.utils.json_functions import extract_content
+from FlaskApp.utils.json_functions import extract_content, extract_text
 from FlaskApp.utils.doctors import load_all_doctors, load_single_doctor_as_vo
 from FlaskApp.utils.session_functions import clear_except_flashes
-from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO
+from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO, LlmFeedbackRequestVO
 from FlaskApp.services import api_service
 import FlaskApp.utils
 import os
@@ -117,24 +117,72 @@ def results():
 
     return render_template('diagnosisresults.html', diagnosis_list=diagnosis_list, response_text=response_text, error_message=error_message)
 
+
 @diagnosis_bp.route('/post_feedback', methods=['POST'])
 def post_feedback():
     """
-    Processes user feedback or follow-up questions and stores the resulting messages in the Flask session.
-    Redirects back to the results page after handling the input.
+    Processes user feedback or follow-up questions, generates a response using the LLM API,
+    and stores the resulting messages in the Flask session.
 
     Returns:
-        Redirect to the `/results` route.
+        Redirect to the `/results` route with the generated response.
     """
-    if 'diagnosis_results' not in session:
+    # Check if a response already exists
+    if session.get('response_text'):
+        session['error_message'] = "You can only ask one follow-up question."
+        return redirect(url_for('diagnosis.results'))
+
+    # Check if diagnosis results exist in the session
+    if 'diagnosis_results' not in session or session['diagnosis_results'] is None:
         session['error_message'] = "Error: No diagnosis data available."
-        return redirect('/results')
+        return redirect(url_for('diagnosis.results'))
 
+    # Retrieve user input
     user_question = request.form.get('user_question', '').strip()
-
     if not user_question:
         session['error_message'] = "Please enter a follow-up question before submitting."
-    else:
-        session['response_text'] = f"Thank you for your question: '{user_question}'. We will address it shortly!"
+        return redirect(url_for('diagnosis.results'))
 
-    return redirect('/results')
+    # Extract patient and diagnostic data from the session
+    try:
+        # Create PatientVO from session data
+        patient_vo = PatientVO(
+            name=session.get('name'),
+            age=session.get('age'),
+            gender=session.get('gender'),
+            symptoms=session.get('symptoms'),
+            family_medical_history=session.get('family_diseases')
+        )
+
+        # Load doctor persona from session data
+        doctor_vo = load_single_doctor_as_vo(session.get('doctor_id'))
+
+        # Get existing diagnosis data from the session
+        diagnosis_results = session['diagnosis_results'].get('Ergebnisse', [])
+    except KeyError as e:
+        session['error_message'] = f"Error: Missing key information for processing feedback. Details: {e}"
+        return redirect(url_for('diagnosis.results'))
+
+    # Create the LLM feedback request object
+    llm_feedback_request = LlmFeedbackRequestVO(
+        patient_vo=patient_vo,
+        doctor_persona_vo=doctor_vo,
+        diagnosis_results=diagnosis_results,
+        user_question=user_question
+    )
+
+    # Call the LLM feedback API
+    try:
+        feedback_response = api_service.perform_feedback_llm_call(llm_feedback_request)
+
+        # Store the response in the session
+        session['response_text'] = extract_text(feedback_response)
+    except ValueError as e:
+        session['error_message'] = f"ValueError: {e}"
+        return redirect(url_for('diagnosis.results'))
+    except Exception as e:
+        session['error_message'] = f"An unexpected error occurred while generating feedback. Details: {e}"
+        return redirect(url_for('diagnosis.results'))
+
+    # Redirect back to the results page to display the response
+    return redirect(url_for('diagnosis.results'))

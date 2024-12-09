@@ -40,32 +40,34 @@
             </tbody>
         </table>
 
-        <!-- Rückfragen Formular -->
-        <form method="POST" action="{{ url_for('diagnosis.results') }}">
-            <!-- Rückfragen Eingabefeld -->
-            <div class="mt-4">
-                <label for="user-question" class="form-label">Hast du Rückfragen zu den Ergebnissen?</label>
-                <textarea id="user-question" name="user_question" class="form-control" rows="3" placeholder="Gib hier deine Rückfragen ein"></textarea>
-            </div>
-
-            <!-- Button zum Formular abschicken -->
-            <div class="d-flex justify-content-center mt-3">
-                <button type="submit" class="btn btn-secondary" name="submit_question" value="true">Rückfrage absenden</button>
-            </div>
-        </form>
-
-        <!-- Antwort-Textbox, wenn `response_text` gesetzt ist -->
-        {% if response_text %}
+<!-- Rückfragen Formular -->
+{% if not response_text %}
+    <form method="POST" action="{{ url_for('diagnosis.post_feedback') }}">
+        <!-- Rückfragen Eingabefeld -->
         <div class="mt-4">
-            <label for="response-text" class="form-label">Antwort auf deine Rückfrage:</label>
-            <textarea id="response-text" name="response_text" class="form-control" rows="3" readonly>{{ response_text }}</textarea>
+            <label for="user-question" class="form-label">Hast du Rückfragen zu den Ergebnissen?</label>
+            <textarea id="user-question" name="user_question" class="form-control" rows="3" placeholder="Gib hier deine Rückfragen ein"></textarea>
         </div>
-        <!-- Fehlermeldung, wenn Nutzer submitted ohne eine Frage zu stellen -->
-        {% elif error_message %}
-        <div class="alert alert-danger mt-3" role="alert">
-            {{ error_message }}
+
+        <!-- Button zum Formular abschicken -->
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-secondary" name="submit_question" value="true">Rückfrage absenden</button>
         </div>
-        {% endif %}
+    </form>
+{% endif %}
+
+<!-- Antwort-Textbox, wenn `response_text` gesetzt ist -->
+{% if response_text %}
+    <div class="mt-4">
+        <label for="response-text" class="form-label">Antwort auf deine Rückfrage:</label>
+        <textarea id="response-text" name="response_text" class="form-control" rows="9" readonly>{{ response_text }}</textarea>
+    </div>
+{% elif error_message %}
+    <!-- Fehlermeldung, wenn Nutzer submitted ohne eine Frage zu stellen -->
+    <div class="alert alert-danger mt-3" role="alert">
+        {{ error_message }}
+    </div>
+{% endif %}
     {% else %}
         <!-- Fehlerfall, wenn keine Diagnosen vorhanden sind -->
         <div class="alert alert-danger">
