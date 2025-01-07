@@ -34,6 +34,10 @@ eine wahrscheinliche Krankheit bestimmt.
 
 ### Aufgaben
 
+- [ ] Docker fixen
+- [ ] Dokumentation
+- [ ] Auswirkungen Persona bestimmen
+
 ### Aufgabenverteilung
 
 | Person | Aufgaben                                             |
