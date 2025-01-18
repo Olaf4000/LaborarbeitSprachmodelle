@@ -2,10 +2,6 @@
 
 ## Initialisierung des Projektes
 
-### Projekt aufsetzen
-1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
-2. Dependencies installieren mit `pip install -r requirements.txt`
-
 ### Ich will das nur starten was mach ich nu
 
 `docker-compose up` alternativ mit: `docker-compose up --build`
@@ -21,6 +17,11 @@ Das Projekt setzt folgende Environment VVariable voraus:
 - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions" -> Api Endpunkt von OpenAI
 - LLM_KEY=*** -> persönlicher OpenAI Api Key
 - LLM_MODEL_NAME="gpt-3.5-turbo" -> Name des OpenAI KI Modells
+
+### Projekt aufsetzen
+
+1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
+2. Dependencies installieren mit `pip install -r requirements.txt`
 
 ## Projektbeschreibung
 
