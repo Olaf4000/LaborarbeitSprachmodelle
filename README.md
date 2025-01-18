@@ -14,6 +14,8 @@
 
 Das Projekt setzt folgende Environment VVariable voraus:
 
+Open AI API Key in die `docker-compose.yml`
+
 - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions" -> Api Endpunkt von OpenAI
 - LLM_KEY=*** -> persönlicher OpenAI Api Key
 - LLM_MODEL_NAME="gpt-3.5-turbo" -> Name des OpenAI KI Modells
