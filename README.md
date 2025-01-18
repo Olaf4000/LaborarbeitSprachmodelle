@@ -2,6 +2,10 @@
 
 ## Initialisierung des Projektes
 
+### Projekt aufsetzen
+1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
+2. Dependencies installieren mit `pip install -r requirements.txt`
+
 ### Ich will das nur starten was mach ich nu
 
 `docker-compose up` alternativ mit: `docker-compose up --build`
@@ -48,9 +52,7 @@ eine wahrscheinliche Krankheit bestimmt.
 | Nico   | GUI, Präsentation, Docker                            |
 | Daniel | Backend, Präsentation, Datenbank, Docker             |
 
-### Projekt aufsetzen
-1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
-2. Dependencies installieren mit `pip install -r requirements.txt`
+
 
 
 
