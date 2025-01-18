@@ -5,7 +5,12 @@ def build_system_prompt(doctor_vo: DoctorPersonaVO, name: str):
     system_prompt = (
         "Du bist {Name: " + doctor_vo.name +
         ", Alter: " + "42" + "} und bist {" + doctor_vo.medical_specialty + "}. " +
-        "Aktuell bearbeitest du den Patienten " + name + "."
+        "Aktuell bearbeitest du den Patienten " + name + "." +
+        " Deine Antwort sollte im JSON-Format erfolgen und folgende Parameter enthalten: Diagnose, Eintrittswahrscheinlichkeit, MöglicheBehandlung, EmpfohlenerFacharzt." +
+        " Die Liste von Diagnosen soll unter dem Parameter 'Ergebnisse' zusammengefasst werden." +
+        " Beachte, dass du den EmpfohlenerFacharzt aus den folgenden Fachrichtungen wählen sollst: Allgemeinmediziner, Kardiologe, Orthopäde, Dermatologe, Gastroenterologe, Neurologe, Hals-Nasen-Ohren-Heilkunde (HNO), Psychiater, Urologe, Gynäkologe." +
+        " Wichtig: Die Antwort muss ausschließlich in reinem Text aus der JSON-Datenstruktur bestehen, sodass sie direkt in Python geparst werden kann. Sie darf nicht in ```json```{} oder ähnlichem eingebetten sein. Nur reiner Text."
+
     )
     return system_prompt
 
@@ -17,12 +22,7 @@ def build_user_prompt(patient_vo: PatientVO):
             " Bitte führe eine differenzierte Diagnose durch, indem du nicht nur die Symptome nennst, sondern auch mögliche zugrunde liegende Erkrankungen identifizierst." +
             " Achte darauf, die Eintrittswahrscheinlichkeit jeder Diagnose zu bewerten, und ordne ihr auch mögliche Behandlungsmethoden zu." +
             " Bitte gib eine klare Empfehlung ab, an welchen Facharzt sich der Patient wenden sollte, basierend auf der Diagnose." +
-            " Die Diagnose soll auf häufige und seltene Erkrankungen geprüft werden, die mit den gegebenen Symptomen in Zusammenhang stehen." +
-            " Deine Antwort sollte im JSON-Format erfolgen und folgende Parameter enthalten: Diagnose, Eintrittswahrscheinlichkeit, MöglicheBehandlung, EmpfohlenerFacharzt." +
-            " Die Liste von Diagnosen soll unter dem Parameter 'Ergebnisse' zusammengefasst werden." +
-            " Beachte, dass du den EmpfohlenerFacharzt aus den folgenden Fachrichtungen wählen sollst: Allgemeinmediziner, Kardiologe, Orthopäde, Dermatologe, Gastroenterologe, Neurologe, Hals-Nasen-Ohren-Heilkunde (HNO), Psychiater, Urologe, Gynäkologe." +
-            " Wichtig: Die Antwort muss ausschließlich in reinem Text aus der JSON-Datenstruktur bestehen, sodass sie direkt in Python geparst werden kann. Sie darf nicht in ```json```{} oder ähnlichem eingebetten sein. Nur reiner Text."
-    )
+            " Die Diagnose soll auf häufige und seltene Erkrankungen geprüft werden, die mit den gegebenen Symptomen in Zusammenhang stehen.")
     #TODO: implement dis shit just for testing
     return user_prompt
 
