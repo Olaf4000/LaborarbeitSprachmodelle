@@ -1,15 +1,12 @@
-version: '3.9'
-
 services:
   app:
     build:
-      context: ./FlaskApp  # Verwendet das Dockerfile im aktuellen Verzeichnis
-
+      context: ./FlaskApp
+      dockerfile: ./Dockerfile
     ports:
-      - "5001:5000"  # Flask-App ist auf localhost:5000 erreichbar
+      - "5000:5000"  # Flask-App ist auf localhost:5000 erreichbar
     environment:
       - FLASK_ENV=development  # Flask im Entwicklungsmodus starten
       - LLM_MODEL_NAME="gpt-3.5-turbo"
       - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions"
-      - LLM_KEY=Bitte Eintragen
-    command: python app.py
+      - LLM_KEY= #Bitte Eintragen

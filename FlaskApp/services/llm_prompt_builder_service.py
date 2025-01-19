@@ -10,7 +10,6 @@ def build_system_prompt(doctor_vo: DoctorPersonaVO, name: str):
         " Die Liste von Diagnosen soll unter dem Parameter 'Ergebnisse' zusammengefasst werden." +
         " Beachte, dass du den EmpfohlenerFacharzt aus den folgenden Fachrichtungen wählen sollst: Allgemeinmediziner, Kardiologe, Orthopäde, Dermatologe, Gastroenterologe, Neurologe, Hals-Nasen-Ohren-Heilkunde (HNO), Psychiater, Urologe, Gynäkologe." +
         " Wichtig: Die Antwort muss ausschließlich in reinem Text aus der JSON-Datenstruktur bestehen, sodass sie direkt in Python geparst werden kann. Sie darf nicht in ```json```{} oder ähnlichem eingebetten sein. Nur reiner Text."
-
     )
     return system_prompt
 
@@ -23,7 +22,6 @@ def build_user_prompt(patient_vo: PatientVO):
             " Achte darauf, die Eintrittswahrscheinlichkeit jeder Diagnose zu bewerten, und ordne ihr auch mögliche Behandlungsmethoden zu." +
             " Bitte gib eine klare Empfehlung ab, an welchen Facharzt sich der Patient wenden sollte, basierend auf der Diagnose." +
             " Die Diagnose soll auf häufige und seltene Erkrankungen geprüft werden, die mit den gegebenen Symptomen in Zusammenhang stehen.")
-    #TODO: implement dis shit just for testing
     return user_prompt
 
 def build_feedback_prompt(patient_vo: PatientVO, diagnosis_results: list, user_question: str):
