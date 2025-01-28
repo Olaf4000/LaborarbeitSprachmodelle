@@ -20,8 +20,6 @@ routes for diagnosis
 
 @diagnosis_bp.route('/')
 def diagnosis():
-    clear_except_flashes()
-
     default_doctor_id = 1
 
     doctor_id_from_query = request.args.get('doctor_id', type=int)
@@ -31,6 +29,12 @@ def diagnosis():
     doctors = load_all_doctors()
 
     return render_template('diagnosis.html', doctors=doctors, default_doctor_id=default_doctor_id)
+
+@diagnosis_bp.route('/clear_session', methods=['GET'])
+def clear_session():
+    clear_except_flashes()
+
+    return redirect(url_for('diagnosis.diagnosis'))
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
@@ -129,18 +133,18 @@ def post_feedback():
     """
     # Check if a response already exists
     if session.get('response_text'):
-        session['error_message'] = "You can only ask one follow-up question."
+        session['error_message'] = "Fehler: Sie können nur eine Folgefrage stellen."
         return redirect(url_for('diagnosis.results'))
 
     # Check if diagnosis results exist in the session
     if 'diagnosis_results' not in session or session['diagnosis_results'] is None:
-        session['error_message'] = "Error: No diagnosis data available."
+        session['error_message'] = "Fehler: Keine Diagnosedaten verfügbar."
         return redirect(url_for('diagnosis.results'))
 
     # Retrieve user input
     user_question = request.form.get('user_question', '').strip()
     if not user_question:
-        session['error_message'] = "Please enter a follow-up question before submitting."
+        session['error_message'] = "Bitte geben Sie eine Folgefrage ein, bevor Sie diese absenden."
         return redirect(url_for('diagnosis.results'))
 
     # Extract patient and diagnostic data from the session

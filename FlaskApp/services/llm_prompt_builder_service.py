@@ -24,7 +24,16 @@ def build_user_prompt(patient_vo: PatientVO):
             " Die Diagnose soll auf häufige und seltene Erkrankungen geprüft werden, die mit den gegebenen Symptomen in Zusammenhang stehen.")
     return user_prompt
 
-def build_feedback_prompt(patient_vo: PatientVO, diagnosis_results: list, user_question: str):
+def build_feedback_system_prompt(doctor_vo: DoctorPersonaVO, name: str):
+    system_prompt = (
+        "Du bist {Name: " + doctor_vo.name + "und bist {" + doctor_vo.medical_specialty + "}. " +
+        "Aktuell bearbeitest du den Patienten " + name + ". Dein Patient hat dir Rückfragen bezüglich seiner Diagnoseergebnisse gestellt. Du bist nett und hilfst ihm, indem du ihm persönlich antwortest. " +
+        "Dafür sollst du sein nachfolgendes Profil, seine Angaben bezüglich Geschlecht, Alter, Symptome und familiäre Krankheiten sowie die Diagnoseergebnisse in die Beantwortung seiner Frage einbeziehen. " +
+        "Wichtig: Deine Antwort muss in reinem Textformat erfolgen."
+    )
+    return system_prompt
+
+def build_feedback_user_prompt(patient_vo: PatientVO, diagnosis_results: list, user_question: str):
     """
     Builds the user feedback prompt based on provided data.
 
@@ -35,15 +44,15 @@ def build_feedback_prompt(patient_vo: PatientVO, diagnosis_results: list, user_q
     :return: A formatted user prompt string.
     """
     feedback_prompt = (
-        f"Der Patient hat dir eine Frage gestellt und hat die folgenden Daten: \n"
+        f"Dein Patient besitzt folgendes Profil: \n"
         f"Patientendaten:\n"
         f"Name: {patient_vo.name}, Alter: {patient_vo.age}, Geschlecht: {patient_vo.gender}\n"
         f"Symptome: {patient_vo.symptoms}\n"
         f"Erbliche Krankheiten in der Familie: {patient_vo.family_medical_history}\n\n"
-        f"Ergebnisse der bisherigen Analyse:\n"
+        f"Ergebnisse der Diagnose:\n"
         f"{diagnosis_results}\n\n"
         f"Der Patient hat dir dazu persönlich folgende Frage gestellt:\n"
         f"{user_question}\n\n"
-        f"Bitte beantworte die Frage basierend auf den vorliegenden Informationen dem Patienten persönlich und gib weitere relevante Details an."
+        f"Beantworte dem Patienten die Frage in reinem Textformat."
     )
     return feedback_prompt

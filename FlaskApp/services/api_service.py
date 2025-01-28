@@ -52,8 +52,8 @@ def perform_feedback_llm_call(llm_feedback_request_vo: LlmFeedbackRequestVO):
     :return: Response of the LLM as a text.
     """
     # Build the system and user prompts for feedback
-    system_prompt = builder.build_system_prompt(llm_feedback_request_vo.doctor_persona_vo, llm_feedback_request_vo.patient_vo.name)
-    user_prompt = builder.build_feedback_prompt(
+    system_prompt = builder.build_feedback_system_prompt(llm_feedback_request_vo.doctor_persona_vo, llm_feedback_request_vo.patient_vo.name)
+    user_prompt = builder.build_feedback_user_prompt(
         patient_vo=llm_feedback_request_vo.patient_vo,
         diagnosis_results=llm_feedback_request_vo.diagnosis_results,
         user_question=llm_feedback_request_vo.user_question

@@ -48,5 +48,10 @@
         "id": 10,
         "name": "Sophia Weber",
         "medical_specialty": "Gynäkologie"
+    },
+    {
+        "id": 11,
+        "name": "Günther Jauch",
+        "medical_specialty": "Satiriker"
     }
 ]
