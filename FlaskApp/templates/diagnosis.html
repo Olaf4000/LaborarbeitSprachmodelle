@@ -9,13 +9,18 @@
 <div class="container mt-5">
     <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
 
-    {% if session.get('name') or session.get('age') or session.get('gender') or session.get('symptoms') or session.get('family_diseases') %}
-        <div class="d-flex justify-content-end mb-3">
-            <a href="{{ url_for('diagnosis.clear_session') }}" class="btn btn-danger btn-sm">
-                <i class="bi bi-x-circle"></i> Voreinträge löschen
+{% if session.get('name') or session.get('age') or session.get('gender') or session.get('symptoms') or session.get('family_diseases') %}
+    <div class="d-flex justify-content-end mb-3">
+        {% if session.get('symptoms') %}
+            <a href="{{ url_for('diagnosis.clear_symptoms', doctor_id=default_doctor_id) }}" class="btn btn-light btn-sm">
+                <i class="bi bi-x-circle"></i> Symptome löschen
             </a>
-        </div>
-    {% endif %}
+        {% endif %}
+        <a href="{{ url_for('diagnosis.clear_session', doctor_id=default_doctor_id) }}" class="btn btn-danger btn-sm ms-2">
+            <i class="bi bi-x-circle"></i> Alle Voreinträge löschen
+        </a>
+    </div>
+{% endif %}
 
     <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
         <!-- Name und Alter in einer Zeile -->
@@ -75,13 +80,22 @@
             <!-- Symptome -->
             <div class="col-md-6">
                 <label for="symptoms" class="form-label">Symptome</label>
-                <textarea id="symptoms" name="symptoms" class="form-control" rows="4" placeholder="Beschreibe deine Symptome ausführlich und detailliert" required></textarea>
+                <textarea id="symptoms"
+                          name="symptoms"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Beschreibe deine Symptome ausführlich und detailliert"
+                          required>{{ session.get('symptoms', '') }}</textarea>
             </div>
 
             <!-- Familiäre Krankheiten -->
             <div class="col-md-6">
                 <label for="family_diseases" class="form-label">Familiäre Krankheiten</label>
-                <textarea id="family_diseases" name="family_diseases" class="form-control" rows="4" placeholder="Liste bekannte familiäre Krankheiten auf (falls zutreffend)"></textarea>
+                <textarea
+                        id="family_diseases"
+                        name="family_diseases"
+                        class="form-control" rows="4"
+                        placeholder="Liste bekannte familiäre Krankheiten auf (falls zutreffend)">{{ session.get('family_diseases', '') }}</textarea>
             </div>
         </div>
 

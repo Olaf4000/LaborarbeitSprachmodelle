@@ -3,7 +3,7 @@ import time, json
 
 from FlaskApp.utils.json_functions import extract_content, extract_text
 from FlaskApp.utils.doctors import load_all_doctors, load_single_doctor_as_vo
-from FlaskApp.utils.session_functions import clear_except_flashes
+from FlaskApp.utils.session_functions import clear_except_flashes, clear_diagnosis_and_symptoms
 from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO, LlmFeedbackRequestVO
 from FlaskApp.services import api_service
 import FlaskApp.utils
@@ -34,7 +34,17 @@ def diagnosis():
 def clear_session():
     clear_except_flashes()
 
-    return redirect(url_for('diagnosis.diagnosis'))
+    doctor_id = request.args.get('doctor_id')
+
+    return redirect(url_for('diagnosis.diagnosis', doctor_id=doctor_id))
+
+@diagnosis_bp.route('/clear_symptoms', methods=['GET'])
+def clear_symptoms():
+    clear_diagnosis_and_symptoms()
+
+    doctor_id = request.args.get('doctor_id')
+
+    return redirect(url_for('diagnosis.diagnosis', doctor_id=doctor_id))
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
