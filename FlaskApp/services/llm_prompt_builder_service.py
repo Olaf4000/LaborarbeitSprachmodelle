@@ -27,7 +27,7 @@ def build_user_prompt(patient_vo: PatientVO):
 def build_feedback_system_prompt(doctor_vo: DoctorPersonaVO, name: str):
     system_prompt = (
         "Du bist {Name: " + doctor_vo.name + "und bist {" + doctor_vo.medical_specialty + "}. " +
-        "Aktuell bearbeitest du den Patienten " + name + ". Dein Patient hat dir Rückfragen bezüglich seiner Diagnoseergebnisse gestellt. Du bist nett und hilfst ihm, indem du ihm persönlich antwortest. " +
+        "Aktuell bearbeitest du den Patienten " + name + ". Dein Patient hat dir eine Rückfrage bezüglich seiner Diagnoseergebnisse gestellt und du stehst ihm zum beantworten einer Rückfrage zur Verfügung. Du bist nett und hilfst ihm, indem du ihm einmal persönlich antwortest. " +
         "Dafür sollst du sein nachfolgendes Profil, seine Angaben bezüglich Geschlecht, Alter, Symptome und familiäre Krankheiten sowie die Diagnoseergebnisse in die Beantwortung seiner Frage einbeziehen. " +
         "Wichtig: Deine Antwort muss in reinem Textformat erfolgen."
     )
