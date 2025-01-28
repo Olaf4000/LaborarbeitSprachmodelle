@@ -1,24 +1,22 @@
 ## Auswertung
 
 ## Warum kein RAG?
-- nur die ChatGPT-API liefert direkt auf Basis des bestehenden Wissens eine Antwort
-- die Antwort wird direkt geliefert, ohne vorher das Dokument analysieren zu müssen
+- Die ChatGPT-API liefert Antworten direkt auf Basis des vorhandenen Wissens.
+- Antworten werden umgehend bereitgestellt, ohne dass eine vorherige Dokumentenanalyse erforderlich ist.
+- Der Einsatz von RAG könnte die Klarheit der Diagnosen beeinträchtigen, da zusätzliche Informationen aus externen Quellen abgerufen werden.
+- Bias: Eine Überrepräsentation bestimmter Erkrankungen kann zu häufigeren Diagnosen führen.
+- Eingeschränkte Entscheidungsfindung: Mangelnde Informationen zu anderen Diagnosen können die Genauigkeit der Ergebnisse beeinträchtigen.
 
 ## Vorgehen
 - [ ] Symptome kurz, mittel, lang mit und ohne familiärer Vorgeschichte falls vorhanden eingeben
-- [ ] evtl. Geschlecht ändern oder das Alter
-- [ ] Die angegebenen Ärzte auswählen
+- [ ] Mehrere Testreihen mit verschiedenen Altersgruppen und Geschlechtern
+- [ ] evtl. empfohlenen Facharzt verwenden
 - [ ] Antworten notieren
 - [ ] Vergleichen, wie die Ergebnisse sind => Ähnlichkeiten, Unterschiede, was ist besser?, was ist genauer?
 
 ## Beispiele
 
 ### Beispiel 1 - Grippe (Influenza)
-- Name: Anna Müller
-- Alter: 34
-- Geschlecht: weiblich
-- Familiäre Krankheiten: -
-
 Symptome kurz:
 - Fieber
 - Husten
@@ -42,45 +40,75 @@ Symptome lang:
 - Ausgeprägte Müdigkeit und Abgeschlagenheit, die oft mehrere Tage bis Wochen anhält
 - Halsschmerzen, die das Schlucken erschweren, sowie leichte Atembeschwerden, besonders beim tiefen Einatmen
 
-Arztwahl:
-- Allgemeinmedizin
-- ?
-- ?
+Auswertung Teil 1:
 
-### Beispiel 2 - Migräne
-- Name: Max Schmitt
-- Alter: 45
-- Geschlecht: männlich
-- Familiäre Krankheiten: Mutter hat Migräne, Vater leidet an Bluthochdruck
+| Testfall | Eingaben (Name, Alter, Geschlecht) | Vorerkrankungen | Symptome         | Facharzt            | Diagnose: Wahrscheinlichkeit hoch | Diagnose: Wahrscheinlichkeit mittel | Diagnose: Wahrscheinlichkeit niedrig |
+|----------|-------------------------------------|------------------|------------------|---------------------|--------------|----------------|------------------|
+| 1.1      | Anna Müller, 34, weiblich          | keine            | Symptome kurz    | Allgemeinmedizin     |  Grippe (Influenza) | Erkältung (grippaler Infekt)	  |  COVID-19     |
+| 1.2      | Anna Müller, 34, weiblich          | keine            | Symptome mittel   | Allgemeinmedizin     | Grippe (Influenza)		  | COVID-19   | Mandelentzündung (Tonsillitis)  |
+| 1.3      | Anna Müller, 34, weiblich          | keine            | Symptome lang     | Allgemeinmedizin     |  Influenza (Grippe)  |  COVID-19; Pneumonie (Lungenentzündung)   |      |
+| 2.1      | Max Schmidt, 45, männlich          | keine            | Symptome kurz     | Allgemeinmedizin     |  Grippe (Influenza) |  COVID-19   |  Meningitis    |
+| 2.2      | Max Schmidt, 45, männlich          | keine            | Symptome mittel   | Allgemeinmedizin     | Influenza (Grippe)  |  COVID-19; Streptokokken-Pharyngitis (Mandelentzündung)   | COVID-19-Langzeitfolgen (Long COVID)     |
+| 2.3      | Max Schmidt, 45, männlich          | keine            | Symptome lang     | Allgemeinmedizin     | Influenza (Grippe)  |  COVID-19; Pneumonie (Lungenentzündung)   | Streptokokken-Infektion     |
+| 3.1      | Lisa Meyer, 10, weiblich           | keine            | Symptome kurz    | Allgemeinmedizin           | Grippe (Influenza) |  COVID-19   | Migräne; Rheumatische Erkrankung (z.B. Rheumatoide Arthritis) |
+| 3.2      | Lisa Meyer, 10, weiblich           | keine            | Symptome mittel   | Allgemeinmedizin           | Influenza (Grippe) |  COVID-19   | Streptokokken-Infektion (Streptokokken-Angina); Mononukleose (Pfeiffersches Drüsenfieber) |
+| 3.3      | Lisa Meyer, 10, weiblich           | keine            | Symptome lang     | Allgemeinmedizin           | Influenza (Grippe) |  COVID-19; Pneumonie (Lungenentzündung) |                  |
+| 4.1      | Tim Becker, 12, männlich           | keine            | Symptome kurz    | Allgemeinmedizin           | Grippe (Influenza) | Pneumonie (Lungenentzündung)	  |  Meningitis  |
+| 4.2      | Tim Becker, 12, männlich           | keine            | Symptome mittel   | Allgemeinmedizin           | Influenza (Grippe) | Mononukleose (Pfeiffersches Drüsenfieber) | COVID-19  |
+| 4.3      | Tim Becker, 12, männlich           | keine            | Symptome lang     | Allgemeinmedizin           | Influenza (Grippe)  |  Pneumonie (Lungenentzündung)  |   Mononukleose (Pfeiffersches Drüsenfieber) |
 
-Symptome kurz:
-- Starke Kopfschmerzen
-- Übelkeit
-- Empfindlichkeit gegenüber Licht und Geräuschen
+Zwischenfazit:
+- Die Tabelle zeigt, dass die KI in der Lage ist, bei verschiedenen Patienten (Erwachsene und Kinder) die Grippe (Influenza) als hochwahrscheinliche Diagnose zu identifizieren.
+- COVID-19 wird häufig als mittelwahrscheinliche Diagnose genannt, während weniger wahrscheinliche Diagnosen variieren.
+- Nächste Auswertung mit HNO als Facharzt
 
-Symptome mittel:
-- Starke, pochende Kopfschmerzen meist auf einer Seite des Kopfes
-- Übelkeit, die bei Bewegung schlimmer wird
-- Empfindlichkeit gegenüber Licht, Geräuschen und manchmal auch Gerüchen
-- Gelegentlicher Schwindel oder Benommenheit
+Auswertung Teil 2:
 
-Symptome lang:
-- Sehr starke, pulsierende Kopfschmerzen, die meist nur auf einer Seite des Kopfes auftreten, häufig beginnend im Schläfenbereich und sich auf den Hinterkopf ausdehnend
-- Begleitende Übelkeit, die so stark ist, dass sie zum Erbrechen führen kann
-- Deutliche Lichtempfindlichkeit (Photophobie) und Geräuschempfindlichkeit (Phonophobie), was zu einer Erhöhung der Schmerzintensität führt
-- Häufige Schwindelgefühle und Benommenheit, die zu Schwierigkeiten bei alltäglichen Aufgaben führen können
-- Manchmal visuelle Aura (Sehstörungen wie Blitze oder Zickzacklinien) kurz vor Beginn der Kopfschmerzen
+| Testfall | Eingaben (Name, Alter, Geschlecht) | Vorerkrankungen | Symptome         | Facharzt            | Diagnose: Wahrscheinlichkeit hoch | Diagnose: Wahrscheinlichkeit mittel | Diagnose: Wahrscheinlichkeit niedrig |
+|----------|-------------------------------------|------------------|------------------|---------------------|--------------|----------------|------------------|
+| 1.1      | Anna Müller, 34, weiblich          | keine            | Symptome kurz    | HNO                 | Grippe (Influenza) | COVID-19; Erkältung (grippaler Infekt)   |  Meningitis  |
+| 1.2      | Anna Müller, 34, weiblich          | keine            | Symptome mittel   | HNO                 | Influenza (Grippe)	 |  COVID-19	  |  Halsentzündung (Pharyngitis)	  |
+| 1.3      | Anna Müller, 34, weiblich          | keine            | Symptome lang     | HNO                 | Grippe (Influenza)	 | COVID-19; Pneumonie (Lungenentzündung); Angina tonsillaris		  |  Meningitis	  |
+| 2.1      | Max Schmidt, 45, männlich          | keine            | Symptome kurz     | HNO                 |              | Grippe (Influenza); COVID-19		  |  Meningitis; Lungenentzündung (Pneumonie)	  |
+| 2.2      | Max Schmidt, 45, männlich          | keine            | Symptome mittel   | HNO                 | Influenza (Grippe)	  |  COVID-19 (Coronavirus-Infektion); Halsentzündung (Pharyngitis) und grippaler Infekt |                  |
+| 2.3      | Max Schmidt, 45, männlich          | keine            | Symptome lang     | HNO                 | Grippe (Influenza)|  Pneumonie (Lungenentzündung); COVID-19	 |                  |
+| 3.1      | Lisa Meyer, 10, weiblich           | keine            | Symptome kurz    | HNO                 | Grippe	 | Pneumonie (Lungenentzündung) |  Sarkoidose	  |
+| 3.2      | Lisa Meyer, 10, weiblich           | keine            | Symptome mittel   | HNO                 | Erkältung (grippaler Infekt)  |  Influenza (Grippe)  |  COVID-19; Stressbedingte Erkrankung (z.B. Stresskopfschmerz)  |
+| 3.3      | Lisa Meyer, 10, weiblich           | keine            | Symptome lang     | HNO                 | Influenza (Grippe)	 | COVID-19; Angina tonsillaris (Mandelentzündung) | Mononukleose (Pfeiffersches Drüsenfieber)	 |
+| 4.1      | Tim Becker, 12, männlich           | keine            | Symptome kurz    | HNO                 | Grippaler Infekt	  |   Influenza (echte Grippe)	  |   COVID-19	  |
+| 4.2      | Tim Becker, 12, männlich           | keine            | Symptome mittel   | HNO                 | Influenza (Grippe)	 | Pfeiffersches Drüsenfieber (Mononukleose)	 | COVID-19	  |
+| 4.3      | Tim Becker, 12, männlich           | keine            | Symptome lang     | HNO                 | Influenza (Grippe)	 | Pneumonie (Lungenentzündung)	 |  Streptokokken-Infektion (Mandelentzündung)	  |
 
-Arztwahl:
-- Allgemeinmedizin
-- Neurologie
-- ?
+Zwischenfazit:
+- Bei der HNO-Facharztbewertung liegt der Fokus stärker auf Atemwegserkrankungen und Halsentzündungen, während die Allgemeinmedizin breitere Diagnosen wie Meningitis und COVID-19 umfasst.
+- In beiden Tabellen bleibt die Grippe (Influenza) die häufigste hochwahrscheinliche Diagnose, was ihre Relevanz bei den vorliegenden Symptomen unterstreicht.
+- Nächste Auswertung mit der Vorerkrankung Asthma, da diese häufig mit Atemwegserkrankungen in Verbindung steht und die Diagnosen beeinflussen könnte
 
-### Beispiel 3 - Reizdarmsyndrom (IBS)
-- Name: Julia Wagner
-- Alter: 28
-- Geschlecht: weiblich
-- Familiäre Krankheiten: Vater hat häufig Verdauungsprobleme, Mutter leidet an Zöliakie
+
+| Testfall | Eingaben (Name, Alter, Geschlecht) | Vorerkrankungen | Symptome         | Facharzt            | Diagnose: Wahrscheinlichkeit hoch | Diagnose: Wahrscheinlichkeit mittel | Diagnose: Wahrscheinlichkeit niedrig |
+|----------|-------------------------------------|------------------|------------------|---------------------|--------------|----------------|------------------|
+| 1.1      | Anna Müller, 34, weiblich          | Asthma           | Symptome kurz    | HNO                 | Grippe (Influenza) | COVID-19; Erkältung (grippaler Infekt)   | Meningitis  |
+| 1.2      | Anna Müller, 34, weiblich          | Asthma           | Symptome mittel   | HNO                 | Influenza (Grippe)	 | COVID-19	  | Halsentzündung (Pharyngitis)	  |
+| 1.3      | Anna Müller, 34, weiblich          | Asthma           | Symptome lang     | HNO                 | Grippe (Influenza)	 | COVID-19; Pneumonie (Lungenentzündung); Angina tonsillaris		  | Meningitis	  |
+| 2.1      | Max Schmidt, 45, männlich          | Asthma           | Symptome kurz     | HNO                 | Grippe (Influenza) | COVID-19	  | Meningitis; Lungenentzündung (Pneumonie)	  |
+| 2.2      | Max Schmidt, 45, männlich          | Asthma           | Symptome mittel   | HNO                 | Influenza (Grippe)	  | COVID-19 (Coronavirus-Infektion); Halsentzündung (Pharyngitis) |                  |
+| 2.3      | Max Schmidt, 45, männlich          | Asthma           | Symptome lang     | HNO                 | Grippe (Influenza) | Pneumonie (Lungenentzündung); COVID-19	 |                  |
+| 3.1      | Lisa Meyer, 10, weiblich           | Asthma           | Symptome kurz    | HNO                 | Grippe (Influenza)	 | Pneumonie (Lungenentzündung) | Sarkoidose	  |
+| 3.2      | Lisa Meyer, 10, weiblich           | Asthma           | Symptome mittel   | HNO                 | Erkältung (grippaler Infekt)  | Influenza (Grippe)  | COVID-19; Stressbedingte Erkrankung (z.B. Stresskopfschmerz)  |
+| 3.3      | Lisa Meyer, 10, weiblich           | Asthma           | Symptome lang     | HNO                 | Influenza (Grippe)	 | COVID-19; Angina tonsillaris (Mandelentzündung) | Mononukleose (Pfeiffersches Drüsenfieber)	 |
+| 4.1      | Tim Becker, 12, männlich           | Asthma           | Symptome kurz    | HNO                 | Grippaler Infekt	  | Influenza (echte Grippe)	  | COVID-19	  |
+| 4.2      | Tim Becker, 12, männlich           | Asthma           | Symptome mittel   | HNO                 | Influenza (Grippe)	 | Pfeiffersches Drüsenfieber (Mononukleose)	 | COVID-19	  |
+| 4.3      | Tim Becker, 12, männlich           | Asthma           | Symptome lang     | HNO                 | Influenza (Grippe)	 | Pneumonie (Lungenentzündung)	 | Streptokokken-Infektion (Mandelentzündung)	  |
+
+Fazit:
+- Die KI identifiziert die Grippe (Influenza) in allen Fällen als die wahrscheinlichste Diagnose, was ihre Zuverlässigkeit zeigt.
+- Eine detaillierte Beschreibung der Symptome verbessert die Diagnosegenauigkeit, ermöglicht eine bessere Differenzierung zwischen ähnlichen Erkrankungen und führt zu genaueren Diagnosen.
+- Die Berücksichtigung von Vorerkrankungen wie Asthma hat die Diagnosen nicht wesentlich verändert, jedoch wurde der Fokus auf Atemwegserkrankungen verstärkt.
+- Bei der HNO-Bewertung liegt der Schwerpunkt stärker auf Halsentzündungen, was die Relevanz der Facharztwahl unterstreicht.
+
+
+
+### Beispiel 2 - Reizdarmsyndrom (IBS)
 
 Symptome kurz:
 - Bauchschmerzen
@@ -101,16 +129,28 @@ Symptome lang:
 - Häufige Blähungen, die durch die Einnahme bestimmter Nahrungsmittel verschärft werden
 - Völlegefühl und Verdauungsstörungen, die nach den Mahlzeiten auftreten und durch stressige Situationen noch verstärkt werden
 
-Arztwahl:
-- Allgemeinmedizin
-- Gastroenterologe
-- ?
+Auswertung:
 
-### Beispiel 4 - Diabetes Typ 2
-- Name: Michael Becker
-- Alter: 55
-- Geschlecht: männlich
-- Familiäre Krankheiten: Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen
+| Testfall | Eingaben (Name, Alter, Geschlecht) | Vorerkrankungen | Symptome         | Facharzt            | Diagnose: Wahrscheinlichkeit hoch | Diagnose: Wahrscheinlichkeit mittel | Diagnose: Wahrscheinlichkeit niedrig |
+|----------|-------------------------------------|------------------|------------------|---------------------|--------------|----------------|------------------|
+| 1.1      | Anna Müller, 34, weiblich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome kurz    | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Laktoseintoleranz | Chronisch entzündliche Darmerkrankung (CED)	 |
+| 1.2      | Anna Müller, 34, weiblich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome mittel   | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Zöliakie | Colon irritabile	 |
+| 1.3      | Anna Müller, 34, weiblich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome lang     | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Chronisch entzündliche Darmerkrankung (CED) | Nahrungsmittelintoleranz (z.B. Laktoseintoleranz)	 |
+| 2.1      | Max Schmidt, 45, männlich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome kurz     | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Chronisch entzündliche Darmerkrankungen (z.B. Morbus Crohn, Colitis ulcerosa); Laktoseintoleranz	 | Darmkrebs |
+| 2.2      | Max Schmidt, 45, männlich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome mittel   | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Chronisch entzündliche Darmerkrankung (z.B. Morbus Crohn, Colitis ulcerosa)	 | Lebensmittelunverträglichkeit (z.B. Laktoseintoleranz)	 |
+| 2.3      | Max Schmidt, 45, männlich          | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome lang     | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Laktoseintoleranz | Chronisch entzündliche Darmerkrankung (z.B. Morbus Crohn, Colitis ulcerosa)	 |
+| 3.1      | Lisa Meyer, 10, weiblich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome kurz    | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Laktoseintoleranz | Ärztlich abgeklärte Nahrungsmittelunverträglichkeit	 |
+| 3.2      | Lisa Meyer, 10, weiblich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome mittel   | Gastroenterologe    | Reizdarmsyndrom (RDS)	 |  | Chronisch entzündliche Darmerkrankung (CED) wie Morbus Crohn oder Colitis ulcerosa	 |
+| 3.3      | Lisa Meyer, 10, weiblich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome lang     | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Chronische Gastritis | Darmkrebs |
+| 4.1      | Tim Becker, 12, männlich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome kurz    | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Nahrungsmittelunverträglichkeit (z.B. Laktoseintoleranz)	 | Morbus Crohn	 |
+| 4.2      | Tim Becker, 12, männlich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome mittel   | Gastroenterologe    | Reizdarmsyndrom (RDS)	 |	 |  Morbus Crohn; Morbus Whipple	 |
+| 4.3      | Tim Becker, 12, männlich           | Vater hat Verdauungsprobleme, Mutter hat Zöliakie | Symptome lang     | Gastroenterologe    | Reizdarmsyndrom (RDS)	 | Laktoseintoleranz | Chronisch entzündliche Darmerkrankung (CED)	 |
+
+Fazit:
+- Die familiäre Geschichte von Verdauungsproblemen und Zöliakie steigert die Wahrscheinlichkeit für Diagnosen wie Reizdarmsyndrom (RDS) und Laktoseintoleranz.
+- In allen Fällen bleibt das Reizdarmsyndrom die häufigste hochwahrscheinliche Diagnose, was auf die Konsistenz der Symptome und deren Zusammenhang mit den familiären Erkrankungen hinweist.
+
+### Beispiel 3 - Diabetes Typ 2
 
 Symptome kurz:
 - Häufiges Wasserlassen
@@ -131,37 +171,24 @@ Symptome lang:
 - Verschwommenes Sehen, das sich bei stark schwankendem Blutzuckerspiegel verschärft, und gelegentliche Kopfschmerzen
 - Weitere Symptome wie Juckreiz und langsame Heilung von Wunden
 
-Arztwahl:
-- Allgemeinmedizin
-- Kardiologe (wenn auch Herzprobleme vorliegen)
-- ?
+Auswertung:
 
-### Beispiel 5 - Heuschnupfen
-- Name: Laura Schmidt
-- Alter: 22
-- Geschlecht: weiblich
-- Familiäre Krankheiten: Allergien in der Familie (Vater und Bruder leiden unter Pollenallergie)
+| Testfall | Eingaben (Name, Alter, Geschlecht) | Vorerkrankungen                             | Symptome         | Facharzt            | Diagnose: Wahrscheinlichkeit hoch | Diagnose: Wahrscheinlichkeit mittel | Diagnose: Wahrscheinlichkeit niedrig |
+|----------|-------------------------------------|--------------------------------------------|------------------|---------------------|--------------|----------------|------------------|
+| 1.1      | Anna Müller, 34, weiblich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome kurz    | Allgemeinmedizin    | Diabetes mellitus | Diabetes insipidus	 | Hyperthyreose	 |
+| 1.2      | Anna Müller, 34, weiblich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome mittel   | Allgemeinmedizin    | Diabetes mellitus Typ 2	 | Diabetes insipidus | Schilddrüsenerkrankung (z.B. Hypothyreose)	 |
+| 1.3      | Anna Müller, 34, weiblich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome lang     | Allgemeinmedizin    | Diabetes mellitus Typ 1	 | Schilddrüsenunterfunktion (Hypothyreose)	 | Hyperthyreose; Diabetes insipidus	 |
+| 2.1      | Max Schmidt, 45, männlich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome kurz     | Allgemeinmedizin    | Diabetes mellitus Typ 2	 | Diabetes insipidus	 | Grauer Star (Katarakt)	 |
+| 2.2      | Max Schmidt, 45, männlich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome mittel   | Allgemeinmedizin    | Diabetes mellitus Typ 2	 | Schilddrüsenerkrankung (z.B. Hashimoto-Thyreoiditis)	 | Diabetes insipidus; Glaukom (Grüner Star)		 |
+| 2.3      | Max Schmidt, 45, männlich          | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome lang     | Allgemeinmedizin    | Diabetes mellitus Typ 2	 | Diabetes insipidus; Neuropathie bei Diabetes		 | Stressbedingte Schlafstörungen; Hypothyreose (Schilddrüsenunterfunktion)	 |
+| 3.1      | Lisa Meyer, 10, weiblich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome kurz    | Allgemeinmedizin    | Diabetes mellitus Typ 1 | Hypothyreose | Diabetes insipidus	 |
+| 3.2      | Lisa Meyer, 10, weiblich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome mittel   | Allgemeinmedizin    | Diabetes mellitus Typ 1	 | Nephrogenes Diabetes insipidus	 | Hypothyreose	 |
+| 3.3      | Lisa Meyer, 10, weiblich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome lang     | Allgemeinmedizin    | Diabetes mellitus Typ 1	 | Diabetes insipidus	 | Hyperthyreose; Psychogene Polydipsie	 |
+| 4.1      | Tim Becker, 12, männlich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome kurz    | Allgemeinmedizin    | Typ-1-Diabetes	 | Diabetes insipidus	 | Nebennierenrindeninsuffizienz |
+| 4.2      | Tim Becker, 12, männlich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome mittel   | Allgemeinmedizin    | Sehstörungen durch Fehlsichtigkeit | Diabetes mellitus Typ 1	 | Diabetes insipidus; Nierenerkrankung |
+| 4.3      | Tim Becker, 12, männlich           | Mutter hatte Diabetes Typ 2, Vater litt an Herzerkrankungen | Symptome lang     | Allgemeinmedizin    | Diabetes mellitus Typ 1 | Diabetes insipidus	 | Hyperthyreose (Schilddrüsenüberfunktion) |
 
-Symptome kurz:
-- Niesen
-- Laufende Nase
-- Juckende Augen
-- Husten
-
-Symptome mittel:
-- Häufiges Niesen, besonders morgens und nachts
-- Laufende Nase mit wässrigem Ausfluss
-- Juckende, tränende Augen und gelegentlich auch Rötung
-- Reizhusten und gelegentliche Halsschmerzen
-
-Symptome lang:
-- Häufiges, intensives Niesen, vor allem bei Kontakt mit Pollen, Staub oder Haustieren
-- Ständige laufende Nase, die mit wässrigem Ausfluss einhergeht, oft verbunden mit einer verstopften Nase
-- Juckende, tränende Augen, die zu Rötungen führen und mit verstärktem Kratzen verbunden sind
-- Reizhusten, der in Verbindung mit Halsschmerzen und einer trockenen Kehle auftritt
-- Symptome, die sich bei bestimmten Jahreszeiten oder bei Kontakt mit Allergenen verstärken
-
-Arztwahl:
-- Allgemeinmedizin
-- HNO-Arzt
-- ?
+Fazit:
+- Die familiäre Vorgeschichte von Diabetes Typ 2 und Herzerkrankungen erhöht die Wahrscheinlichkeit für Diagnosen wie Diabetes mellitus.
+- In den meisten Fällen wird Diabetes mellitus als hochwahrscheinliche Diagnose identifiziert, während andere Erkrankungen wie Diabetes insipidus und Schilddrüsenerkrankungen ebenfalls in Betracht gezogen werden.
+- Der Unterschied zwischen Diabetes Typ 1 und Typ 2 kann oft nicht klar erkannt werden, da beide Erkrankungen ähnliche Symptome wie häufiges Wasserlassen, übermäßigen Durst und Müdigkeit aufweisen, was die Diagnosestellung erschwert.
