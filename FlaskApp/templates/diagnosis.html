@@ -8,19 +8,42 @@
 
 <div class="container mt-5">
     <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
+
+    {% if session.get('name') or session.get('age') or session.get('gender') or session.get('symptoms') or session.get('family_diseases') %}
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ url_for('diagnosis.clear_session') }}" class="btn btn-danger btn-sm">
+                <i class="bi bi-x-circle"></i> Voreinträge löschen
+            </a>
+        </div>
+    {% endif %}
+
     <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
         <!-- Name und Alter in einer Zeile -->
         <div class="mb-3 row">
         <!-- Name -->
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Name eingeben" required>
+                <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        placeholder="Name eingeben"
+                        value="{{ session.get('name', '') }}"
+                        required>
             </div>
 
             <!-- Alter -->
             <div class="col-md-6">
                 <label for="age" class="form-label">Alter</label>
-                <input type="number" id="age" name="age" class="form-control" placeholder="Alter eingeben" required>
+                <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        class="form-control"
+                        placeholder="Alter eingeben"
+                        value="{{ session.get('age', '') }}"
+                        required>
             </div>
         </div>
 
@@ -28,10 +51,10 @@
         <div class="mb-3">
             <label for="gender" class="form-label">Geschlecht</label>
             <select id="gender" name="gender" class="form-select" required>
-                <option value="" disabled selected>Geschlecht auswählen</option>
-                <option value="male">männlich</option>
-                <option value="female">weiblich</option>
-                <option value="other">anderes</option>
+                <option value="" disabled {% if not session.get('gender') %}selected{% endif %}>Geschlecht auswählen</option>
+                <option value="male" {% if session.get('gender') == 'male' %}selected{% endif %}>männlich</option>
+                <option value="female" {% if session.get('gender') == 'female' %}selected{% endif %}>weiblich</option>
+                <option value="other" {% if session.get('gender') == 'other' %}selected{% endif %}>anderes</option>
             </select>
         </div>
 
@@ -66,8 +89,6 @@
         <button type="submit" class="btn btn-primary">Diagnose erstellen</button>
     </form>
 
-    <!-- Button zur Weiterleitung auf die Ergebnisse-Seite -->
-    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('diagnosis.results') }}'">!!!Debug!!! Ergebnisse der Diagnose</button>
 </div>
 
 {% endblock %}

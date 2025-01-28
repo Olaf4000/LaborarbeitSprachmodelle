@@ -17,7 +17,7 @@ app.secret_key = 'jgagnj<ngjpnhnbmbnshnowkrhnsmba25uo11o'
 
 @app.route('/')
 def home():
-    return render_template('index.html', test="Testvariable")
+    return render_template('index.html')
 
 # Register blueprints
 app.register_blueprint(doctors_bp, url_prefix='/doctors')
