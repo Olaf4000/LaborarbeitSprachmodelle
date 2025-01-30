@@ -7,6 +7,6 @@ services:
       - "5000:5000"  # Flask-App ist auf localhost:5000 erreichbar
     environment:
       - FLASK_ENV=development  # Flask im Entwicklungsmodus starten
-      - LLM_MODEL_NAME="gpt-3.5-turbo"
-      - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions"
-      - LLM_KEY= #Bitte Eintragen
+      - LLM_MODEL_NAME=gpt-3.5-turbo
+      - LLM_URI_BASE_PATH=https://api.openai.com/v1/chat/completions
+      - LLM_KEY= # Bitte OpenAI API Key eintragen
