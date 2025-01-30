@@ -9,23 +9,25 @@
 <div class="container mt-5">
     <h2 class="mb-4">Um eine Diagnose zu erstellen, bitte das Formular ausfüllen.</h2>
 
-{% if session.get('name') or session.get('age') or session.get('gender') or session.get('symptoms') or session.get('family_diseases') %}
-    <div class="d-flex justify-content-end mb-3">
-        {% if session.get('symptoms') %}
-            <a href="{{ url_for('diagnosis.clear_symptoms', doctor_id=default_doctor_id) }}" class="btn btn-light btn-sm">
-                <i class="bi bi-x-circle"></i> Symptome löschen
+    {% if session.get('name') or session.get('age') or session.get('gender') or session.get('symptoms') or session.get('family_diseases') %}
+        <!-- Options to clear data if session contains any values -->
+        <div class="d-flex justify-content-end mb-3">
+            {% if session.get('symptoms') %}
+                <a href="{{ url_for('diagnosis.clear_symptoms', doctor_id=default_doctor_id) }}" class="btn btn-light btn-sm">
+                    <i class="bi bi-x-circle"></i> Symptome löschen
+                </a>
+            {% endif %}
+            <a href="{{ url_for('diagnosis.clear_session', doctor_id=default_doctor_id) }}" class="btn btn-danger btn-sm ms-2">
+                <i class="bi bi-x-circle"></i> Alle Voreinträge löschen
             </a>
-        {% endif %}
-        <a href="{{ url_for('diagnosis.clear_session', doctor_id=default_doctor_id) }}" class="btn btn-danger btn-sm ms-2">
-            <i class="bi bi-x-circle"></i> Alle Voreinträge löschen
-        </a>
-    </div>
-{% endif %}
+        </div>
+    {% endif %}
 
+    <!-- Diagnosis form -->
     <form action="{{ url_for('diagnosis.submit_diagnosis') }}" method="POST">
-        <!-- Name und Alter in einer Zeile -->
+        <!-- Name and Age in a row -->
         <div class="mb-3 row">
-        <!-- Name -->
+            <!-- Name input -->
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
                 <input
@@ -38,7 +40,7 @@
                         required>
             </div>
 
-            <!-- Alter -->
+            <!-- Age input -->
             <div class="col-md-6">
                 <label for="age" class="form-label">Alter</label>
                 <input
@@ -52,7 +54,7 @@
             </div>
         </div>
 
-        <!-- Geschlecht -->
+        <!-- Gender selection -->
         <div class="mb-3">
             <label for="gender" class="form-label">Geschlecht</label>
             <select id="gender" name="gender" class="form-select" required>
@@ -63,7 +65,7 @@
             </select>
         </div>
 
-        <!-- Arzt Auswahl -->
+        <!-- Doctor selection -->
         <div class="mb-3">
             <label for="doctors" class="form-label">Von welchem GPT-Arzt möchten Sie eine Diagnose?</label>
             <select id="doctors" name="doctors" class="form-select" required>
@@ -75,9 +77,9 @@
             </select>
         </div>
 
-        <!-- Symptome und Familiäre Krankheiten in einer Zeile -->
+        <!-- Symptoms and Family Diseases in a row -->
         <div class="mb-3 row">
-            <!-- Symptome -->
+            <!-- Symptoms input -->
             <div class="col-md-6">
                 <label for="symptoms" class="form-label">Symptome</label>
                 <textarea id="symptoms"
@@ -88,7 +90,7 @@
                           required>{{ session.get('symptoms', '') }}</textarea>
             </div>
 
-            <!-- Familiäre Krankheiten -->
+            <!-- Family Diseases input -->
             <div class="col-md-6">
                 <label for="family_diseases" class="form-label">Familiäre Krankheiten</label>
                 <textarea
