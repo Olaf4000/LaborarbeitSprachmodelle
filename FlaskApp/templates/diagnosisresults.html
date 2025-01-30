@@ -10,8 +10,9 @@
     <h2 class="mb-4">Deine Diagnose Ergebnisse</h2>
 
     {% if diagnosis_list %}
-        <!-- Table for diagnosis results -->
+        <!-- Tabelle für die Diagnoseergebnisse -->
         <table class="table table-hover table-bordered table-striped">
+            <!-- Column headers -->
             <thead class="thead-light">
                 <tr>
                     <th scope="col">Diagnose</th>
@@ -19,6 +20,7 @@
                     <th scope="col">Empfohlener Facharzt</th>
                 </tr>
             </thead>
+            <!-- Column contents -->
             <tbody>
                 {% for diagnosis_item in diagnosis_list %}
                     <tr class="text-center">
@@ -38,41 +40,42 @@
             </tbody>
         </table>
 
-        {% if not response_text %}
-            <form method="POST" action="{{ url_for('diagnosis.post_feedback') }}">
-                <div class="mt-4">
-                    <label for="user-question" class="form-label">Hast du Rückfragen zu den Ergebnissen?</label>
-                    <textarea id="user-question" name="user_question" class="form-control" rows="3" placeholder="Gib hier deine Rückfragen ein"></textarea>
-                </div>
+<!-- Rückfragen Formular -->
+{% if not response_text %}
+    <form method="POST" action="{{ url_for('diagnosis.post_feedback') }}">
+        <!-- Rückfragen Eingabefeld -->
+        <div class="mt-4">
+            <label for="user-question" class="form-label">Hast du Rückfragen zu den Ergebnissen?</label>
+            <textarea id="user-question" name="user_question" class="form-control" rows="3" placeholder="Gib hier deine Rückfragen ein"></textarea>
+        </div>
 
-                <div class="d-flex justify-content-center mt-3">
-                    <button type="submit" class="btn btn-secondary" name="submit_question" value="true">Rückfrage absenden</button>
-                </div>
-            </form>
-        {% endif %}
+        <!-- Button zum Formular abschicken -->
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-secondary" name="submit_question" value="true">Rückfrage absenden</button>
+        </div>
+    </form>
+{% endif %}
 
-        {% if response_text %}
-            <div class="mt-4">
-                <label for="response-text" class="form-label">Antwort auf deine Rückfrage:</label>
-                <textarea id="response-text" name="response_text" class="form-control" rows="9" readonly>{{ response_text }}</textarea>
-            </div>
-            <div class="d-flex justify-content-center mt-3">
-                <button id="ask-more-button" class="btn btn-secondary" onclick="window.location.href='{{ url_for('diagnosis.results') }}'">Erneut fragen</button>
-            </div>
-        {% elif error_message %}
-            <!-- Error message if no question was submitted -->
-            <div class="alert alert-danger mt-3" role="alert">
-                {{ error_message }}
-            </div>
-        {% endif %}
+<!-- Antwort-Textbox, wenn `response_text` gesetzt ist -->
+{% if response_text %}
+    <div class="mt-4">
+        <label for="response-text" class="form-label">Antwort auf deine Rückfrage:</label>
+        <textarea id="response-text" name="response_text" class="form-control" rows="9" readonly>{{ response_text }}</textarea>
+    </div>
+{% elif error_message %}
+    <!-- Fehlermeldung, wenn Nutzer submitted ohne eine Frage zu stellen -->
+    <div class="alert alert-danger mt-3" role="alert">
+        {{ error_message }}
+    </div>
+{% endif %}
     {% else %}
-        <!-- Error message when no diagnoses are available -->
+        <!-- Fehlerfall, wenn keine Diagnosen vorhanden sind -->
         <div class="alert alert-danger">
             <strong>Fehler:</strong> Keine Diagnose vorhanden.
         </div>
     {% endif %}
 
-    <!-- Button to redirect to the doctors page -->
+    <!-- Button zur Weiterleitung auf die Ärzte Seite -->
     <div class="d-flex justify-content-center mt-5">
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('doctors.doctors') }}'">Ärzteübersicht</button>
     </div>

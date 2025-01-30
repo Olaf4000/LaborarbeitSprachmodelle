@@ -5,18 +5,16 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Flexbox container for centering content, but positioned higher than the middle -->
+    <!-- Flexbox Container für zentrierten Inhalt, aber höher als die Mitte -->
     <div class="d-flex justify-content-center align-items-start" style="height: 100vh; padding-top: 4%; padding-left: 10%; padding-right: 10%">
         <div class="text-center">
-            <!-- Welcome title -->
             <h3 class="text-primary">Willkommen bei SaniChat</h3>
-            <!-- Description of the service -->
             <p>SaniChat bietet Ihnen die Möglichkeit, Ihre Symptome und Gesundheitsinformationen mit uns zu teilen, um eine erste Einschätzung Ihrer gesundheitlichen Situation zu erhalten. Auf der Grundlage der von Ihnen angegebenen Daten, wie Ihrem Alter, Geschlecht, den Symptomen und etwaigen familiären Krankheitsgeschichten, wird eine vorläufige Diagnose erstellt</p>
 
-            <!-- Container with two columns -->
+            <!-- Container mit zwei Spalten -->
             <div class="container mt-5">
                 <div class="row">
-                    <!-- Left column: "So funktioniert es" list (aligned left) -->
+                    <!-- Linke Spalte: Liste "So funktioniert es" (links ausgerichtet) -->
                     <div class="container mt-6">
                         <h4 class="text-primary">So funktioniert es:</h4>
                         <ol class="list-group list-group-numbered">
@@ -29,9 +27,7 @@
             </div>
 
             <br>
-            <!-- Disclaimer about the diagnosis -->
             <p><b>Bitte beachten Sie, dass diese Diagnose keine ärztliche Beratung ersetzt. <br> Sie dient als erster Hinweis und sollte durch einen Facharzt überprüft werden.</b></p>
-            <!-- Link to start the diagnosis process -->
             <p><a href="/diagnosis" class="btn btn-primary">Zur Diagnose</a></p>
         </div>
     </div>

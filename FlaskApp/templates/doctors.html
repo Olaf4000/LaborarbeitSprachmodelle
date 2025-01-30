@@ -6,20 +6,17 @@
 
 {% block body %}
     <div class="container mt-5">
-        <!-- Title for the doctors' profiles page -->
+        <!-- Titel -->
         <h2 class="text-center text-primary mb-4">Ärzteprofile</h2>
 
-        <!-- Doctors list displayed in a row of cards -->
+        <!-- Liste der Ärzte -->
         <div class="row">
             {% for doctor in doctors %}
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <!-- Doctor's name -->
                             <h5 class="card-title text-primary">{{ doctor.name }}</h5>
-                            <!-- Doctor's specialty -->
                             <p class="card-text"><strong>Fachrichtung:</strong> {{ doctor.medical_specialty }}</p>
-                            <!-- Link to chat with the doctor -->
                             <a href="/diagnosis?doctor_id={{ doctor.id }}" class="btn btn-primary">Chatte mit {{ doctor.name }}</a>
                         </div>
                     </div>
