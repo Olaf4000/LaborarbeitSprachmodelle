@@ -36,7 +36,7 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
   - Lösung: Darauf achten, dass bei den Umgebungsvariablen keine Anführungszeichen davor oder danach stehen
 - Beim Öffnen von Docker unter MacOS kommt `com.docker.socket will damage your computer` -> MacOS identifiziert Docker als Virus
   - Lösung: Docker löschen und die neuste Version installieren
-- Falls Docker beim Befehl `docker-compose up --build` sagt, das Port 5000 schon belegt ist
+- Falls Docker beim Befehl `docker-compose up --build` sagt, das Port 5000 schon belegt ist. Die Meldung ist in etwa diese: `Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:5000 -> 0.0.0.0:0: listen tcp 0.0.0.0:5000: bind: address already in use`
   - Lösung: In der Datei `docker-compose.yml` die Angabe `5000:5000` durch z.B. `5001:5000` ersetzen oder durch einen anderen freien Port auf dem Host-System
 
 ## Developer: zum lokalen debuggen und ausführen
