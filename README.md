@@ -58,7 +58,7 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
    - `app.py` ausführen mit korrekter virtueller Umgebung/Interpreter.
      ![Current file (app.py ausführen)](doc_images/current_file.png)
    - Run-Konfiguration für Flask (server) anlegen und Projekt darüber starten.
-     - ![Run configuration](doc_images/flaskapp_config.png)
+     ![Run configuration](doc_images/flaskapp_config.png)
 
 ### Projekt aufsetzen (über Docker)
 
