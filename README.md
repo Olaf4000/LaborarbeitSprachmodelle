@@ -46,7 +46,7 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
 
 ### notwendige Environment Variablen
 
-### Projekt aufsetzen
+### Projekt aufsetzen (lokal über Python)
 
 1. In `.env`-Datei den persönlichen ChatGPT API Key eintragen.
    - `LLM_KEY=[APIKEY]`
@@ -59,6 +59,15 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
      ![Current file (app.py ausführen)](doc_images/current_file.png)
    - Run-Konfiguration für Flask (server) anlegen und Projekt darüber starten.
      - ![Run configuration](doc_images/flaskapp_config.png)
+
+### Projekt aufsetzen (über Docker)
+
+1. Open AI API Key in die `docker-compose.yml`
+   - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions" -> Api Endpunkt von OpenAI
+   - LLM_KEY=*** -> persönlicher OpenAI Api Key
+   - LLM_MODEL_NAME="gpt-3.5-turbo" -> Name des OpenAI KI Modells
+2. Docker image bauen und starten
+     `docker build -t sani-chat ./FlaskApp/ && docker run -it sani-chat -p 5000:5000`
 
 ### Vorgehensweise
 
