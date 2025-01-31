@@ -1,13 +1,14 @@
 # Laborarbeit Sprachmodelle
 
 ## Installationsanleitung für User
+
 1. Docker installieren und öffnen
 2. Git-Repository klonen und in einer Entwicklungsumgebung öffnen
 3. Die Umgebungsvariablen wie folgt setzen
    - Die Datei `docker-compose.yml` öffnen
    - LLM_URI_BASE_PATH=https://api.openai.com/v1/chat/completions -> ist der API-Endpunkt von OpenAI und ist schon gesetzt
    - LLM_MODEL_NAME=gpt-3.5-turbo -> Name des OpenAI KI Modells, ist auch schon gesetzt
-   - LLM_KEY=*** -> persönlicher OpenAI API Key -> kann unter https://platform.openai.com angelegt werden -> man muss über Kreditkarte 5 Euro aufladen
+   - LLM_KEY=\*\*\* -> persönlicher OpenAI API Key -> kann unter https://platform.openai.com angelegt werden -> man muss über Kreditkarte 5 Euro aufladen
 4. In der Entwicklungsumgebung ein Terminal öffnen
 5. Folgende Befehle ausführen, aber ACHTUNG je nach Dockerversion können die anders sein
    - Docker ALT
@@ -31,6 +32,7 @@ eine wahrscheinliche Krankheit bestimmt.
 Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unterschiedlich genaue Erklärung der Symptome ist im File `Auswertung.md` zu finden.
 
 ## Fehlerbehandlung
+
 - Grundsätzlich sollten keine Fehler auftreten, da die Anwendung ausprobiert wurde
 - Beim Abschicken der Diagnose kommt `ERROR: No connection adapters were found for &#39;&#34;https://api.openai.com/v1/chat/ completions&#34;&#39;`
   - Lösung: Darauf achten, dass bei den Umgebungsvariablen keine Anführungszeichen davor oder danach stehen
@@ -49,7 +51,7 @@ Das Projekt setzt folgende Environment VVariable voraus:
 Open AI API Key in die `docker-compose.yml`
 
 - LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions" -> Api Endpunkt von OpenAI
-- LLM_KEY=*** -> persönlicher OpenAI Api Key
+- LLM_KEY=\*\*\* -> persönlicher OpenAI Api Key
 - LLM_MODEL_NAME="gpt-3.5-turbo" -> Name des OpenAI KI Modells
 
 ### Projekt aufsetzen
@@ -59,9 +61,11 @@ Open AI API Key in die `docker-compose.yml`
 2. Dependencies installieren mit `pip install -r requirements.txt`
 3. Anschließend entweder...
    - `app.py` ausführen mit korrekter virtueller Umgebung/Interpreter.
-   ![Current file (app.py ausführen)](doc_images/current_file.png)
+     ![Current file (app.py ausführen)](doc_images/current_file.png)
    - Run-Konfiguration für Flask (server) anlegen und Projekt darüber starten.
      - ![Run configuration](doc_images/flaskapp_config.png)
+   - Docker image bauen und starten
+     `docker build -t sani-chat ./FlaskApp/ && docker run -it sani-chat -p 5000:5000`
 
 ### Vorgehensweise
 
@@ -73,16 +77,10 @@ Open AI API Key in die `docker-compose.yml`
 
 ### Aufgabenverteilung
 
-| Person | Aufgaben                                             |
-|--------|------------------------------------------------------|
-| Marc   | testen des KI Modells,                               |
-| Eric   | Flask Backend, Datenbank                             |
-| Kurt   | Testing, Miscellaneous                               |
-| Nico   | GUI, Präsentation, Docker                            |
-| Daniel | Backend, Präsentation, Datenbank, Docker             |
-
-
-
-
-
-
+| Person | Aufgaben                                 |
+| ------ | ---------------------------------------- |
+| Marc   | testen des KI Modells,                   |
+| Eric   | Flask Backend, Datenbank                 |
+| Kurt   | Testing, Miscellaneous                   |
+| Nico   | GUI, Präsentation, Docker                |
+| Daniel | Backend, Präsentation, Datenbank, Docker |
