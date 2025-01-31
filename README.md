@@ -69,7 +69,7 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
 2. Docker image bauen und starten
      `docker build -t sani-chat ./FlaskApp/ && docker run -it sani-chat -p 5000:5000`
 
-### Vorgehensweise
+## Vorgehensweise
 
 ### Technologien
 
