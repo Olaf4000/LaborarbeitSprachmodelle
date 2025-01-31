@@ -1,14 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
-import time, json
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+import json
 
 from FlaskApp.utils.json_functions import extract_content, extract_text
 from FlaskApp.utils.doctors import load_all_doctors, load_single_doctor_as_vo
 from FlaskApp.utils.session_functions import clear_except_flashes, clear_diagnosis_and_symptoms
-from FlaskApp.value_objects import LlmRequestVO, PatientVO, DoctorPersonaVO, LlmFeedbackRequestVO
+from FlaskApp.value_objects import LlmRequestVO, PatientVO, LlmFeedbackRequestVO
 from FlaskApp.services import api_service
-import FlaskApp.utils
-import os
-from dataclasses import dataclass
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
 

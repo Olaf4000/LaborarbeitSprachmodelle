@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template
-import FlaskApp.utils
 from FlaskApp.utils.doctors import load_all_doctors
 
 doctors_bp = Blueprint('doctors', __name__)
