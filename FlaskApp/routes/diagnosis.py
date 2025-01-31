@@ -20,46 +20,92 @@ routes for diagnosis
 
 @diagnosis_bp.route('/')
 def diagnosis():
+    """
+    Displays the diagnosis page with a list of doctors and the selected default doctor.
+
+    Returns:
+        Rendered HTML page with doctors and the default doctor ID.
+    """
+    # Set default doctor ID to 1
     default_doctor_id = 1
 
+    # Check if a doctor_id is passed via query parameters
     doctor_id_from_query = request.args.get('doctor_id', type=int)
     if doctor_id_from_query:
+        # Update default doctor ID if a valid one is passed in the query
         default_doctor_id = doctor_id_from_query
 
+    # Load all doctors
     doctors = load_all_doctors()
 
+    # Render the HTML page with the doctors list and the default doctor ID
     return render_template('diagnosis.html', doctors=doctors, default_doctor_id=default_doctor_id)
+
 
 @diagnosis_bp.route('/clear_session', methods=['GET'])
 def clear_session():
+    """
+    Clears the session (except for flash messages) and redirects to the diagnosis page.
+
+    Returns:
+        Redirect to the diagnosis page with the current doctor ID.
+    """
+    # Clear the session except for flash messages
     clear_except_flashes()
 
+    # Get the doctor_id from the query parameters
     doctor_id = request.args.get('doctor_id')
 
+    # Redirect to the diagnosis page with the current doctor ID
     return redirect(url_for('diagnosis.diagnosis', doctor_id=doctor_id))
+
 
 @diagnosis_bp.route('/clear_symptoms', methods=['GET'])
 def clear_symptoms():
+    """
+    Clears the diagnosis and symptoms data and redirects to the diagnosis page.
+
+    Returns:
+        Redirect to the diagnosis page with the current doctor ID.
+    """
+    # Clear the diagnosis and symptoms data
     clear_diagnosis_and_symptoms()
 
+    # Get the doctor_id from the query parameters
     doctor_id = request.args.get('doctor_id')
 
+    # Redirect to the diagnosis page with the current doctor ID
     return redirect(url_for('diagnosis.diagnosis', doctor_id=doctor_id))
+
 
 @diagnosis_bp.route('/submit_diagnosis', methods=['POST'])
 def submit_diagnosis():
+    """
+    Validates and processes the diagnosis form, stores data in the session,
+    and triggers the LLM API call for diagnosis.
+
+    Returns:
+        Redirects to the diagnosis page with appropriate flash messages
+        or to the results page if successful.
+    """
+    # Validate the age field: Ensure it's a digit
     if not request.form['age'].isdigit():
         flash('Please enter a valid age', 'error')
         return redirect(url_for('diagnosis.diagnosis'))
+
+    # Validate the symptoms field: Ensure it's not empty
     elif request.form['symptoms'].strip() == '':
         flash('Please enter a symptom description', 'error')
         return redirect(url_for('diagnosis.diagnosis'))
 
+    # Store form data in session
     session['name'] = request.form['name']
     session['age'] = request.form['age']
     session['gender'] = request.form['gender']
     session['symptoms'] = request.form['symptoms']
     session['family_diseases'] = request.form['family_diseases']
+
+    # Try to store the doctor ID in the session
     try:
         session['doctor_id'] = int(request.form['doctors'])
     except ValueError as e:
@@ -69,6 +115,7 @@ def submit_diagnosis():
         flash(f"KeyError: Der Schlüssel 'doctors' fehlt in der Anfrage: {e}", "error")
         return redirect(url_for('diagnosis.diagnosis'))
 
+    # Create a PatientVO object with session data
     patient_vo = PatientVO(
         name=session.get('name'),
         age=session.get('age'),
@@ -77,18 +124,19 @@ def submit_diagnosis():
         family_medical_history=session.get('family_diseases')
     )
 
-
+    # Try to load the doctor details
     try:
         doctor_vo = load_single_doctor_as_vo(session.get('doctor_id'))
     except ValueError as e:
         flash("ERROR: " + str(e))
         return redirect('/diagnosis')
 
-
+    # Prepare the LLM request object
     llm_request_vo = LlmRequestVO(patient_vo=patient_vo,
                                   doctor_persona_vo=doctor_vo
                                   )
 
+    # Make the LLM API call and handle errors
     try:
         llm_response = api_service.perform_main_llm_call(llm_request_vo)
         print(llm_response)
@@ -99,6 +147,7 @@ def submit_diagnosis():
         flash("An unexpected error occurred while processing the response. Details: " + str(e))
         return redirect('/diagnosis')
 
+    # Try to store the diagnosis results in the session
     try:
         session['diagnosis_results'] = extract_content(llm_response)
         print(session.get('diagnosis_results'))
@@ -112,6 +161,7 @@ def submit_diagnosis():
         flash("An unexpected error occurred while processing the response. Details: " + str(e))
         return redirect('/diagnosis')
 
+    # Redirect to the results page
     return redirect(url_for('diagnosis.results'))
 
 @diagnosis_bp.route('/results', methods=['GET'])
