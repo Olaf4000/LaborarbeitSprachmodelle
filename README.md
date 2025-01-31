@@ -46,26 +46,19 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
 
 ### notwendige Environment Variablen
 
-Das Projekt setzt folgende Environment VVariable voraus:
-
-Open AI API Key in die `docker-compose.yml`
-
-- LLM_URI_BASE_PATH="https://api.openai.com/v1/chat/completions" -> Api Endpunkt von OpenAI
-- LLM_KEY=\*\*\* -> persönlicher OpenAI Api Key
-- LLM_MODEL_NAME="gpt-3.5-turbo" -> Name des OpenAI KI Modells
-
 ### Projekt aufsetzen
 
-1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
-   - Empfehlung: Python 3.11
-2. Dependencies installieren mit `pip install -r requirements.txt`
-3. Anschließend entweder...
+1. In `.env`-Datei den persönlichen ChatGPT API Key eintragen.
+   - `LLM_KEY=[APIKEY]`
+   - `LLM_URI_BASE_PATH` und `LLM_MODEL_NAME` können unverändert bleiben.
+3. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
+   - Empfehlung: Python 3.11, 3.9 nutzen
+4. Dependencies installieren mit `pip install -r requirements.txt`
+5. Anschließend entweder...
    - `app.py` ausführen mit korrekter virtueller Umgebung/Interpreter.
      ![Current file (app.py ausführen)](doc_images/current_file.png)
    - Run-Konfiguration für Flask (server) anlegen und Projekt darüber starten.
      - ![Run configuration](doc_images/flaskapp_config.png)
-   - Docker image bauen und starten
-     `docker build -t sani-chat ./FlaskApp/ && docker run -it sani-chat -p 5000:5000`
 
 ### Vorgehensweise
 
@@ -80,7 +73,7 @@ Open AI API Key in die `docker-compose.yml`
 | Person | Aufgaben                                 |
 | ------ | ---------------------------------------- |
 | Marc   | testen des KI Modells,                   |
-| Eric   | Flask Backend, Datenbank                 |
+| Erik   | Flask Backend, Datenbank                 |
 | Kurt   | Testing, Miscellaneous                   |
 | Nico   | GUI, Präsentation, Docker                |
 | Daniel | Backend, Präsentation, Datenbank, Docker |
