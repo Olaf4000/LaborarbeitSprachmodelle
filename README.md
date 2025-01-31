@@ -38,6 +38,7 @@ Eine Auswertung zu den Antworten des Chatbots auf verschiedene Symptome und unte
   - Lösung: Docker löschen und die neuste Version installieren
 - Falls Docker beim Befehl `docker-compose up --build` sagt, das Port 5000 schon belegt ist. Die Meldung ist in etwa diese: `Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:5000 -> 0.0.0.0:0: listen tcp 0.0.0.0:5000: bind: address already in use`
   - Lösung: In der Datei `docker-compose.yml` die Angabe `5000:5000` durch z.B. `5001:5000` ersetzen oder durch einen anderen freien Port auf dem Host-System
+- Gesamtalternative: Siehe Developer-Anleitung unten.
 
 ## Developer: zum lokalen debuggen und ausführen
 
@@ -54,7 +55,13 @@ Open AI API Key in die `docker-compose.yml`
 ### Projekt aufsetzen
 
 1. venv erstellen mit `pyhton -m venv myENV` und aktivieren z.B. mit `source myENV/bin/activate` (bash command für Linux und MacOS)
+   - Empfehlung: Python 3.11
 2. Dependencies installieren mit `pip install -r requirements.txt`
+3. Anschließend entweder...
+   - `app.py` ausführen mit korrekter virtueller Umgebung/Interpreter.
+   ![Current file (app.py ausführen)](doc_images/current_file.png)
+   - Run-Konfiguration für Flask (server) anlegen und Projekt darüber starten.
+     - ![Run configuration](doc_images/flaskapp_config.png)
 
 ### Vorgehensweise
 
