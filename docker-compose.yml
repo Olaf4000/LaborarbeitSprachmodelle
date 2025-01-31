@@ -4,7 +4,7 @@ services:
       context: ./FlaskApp
       dockerfile: ./Dockerfile
     ports:
-      - "5001:5000"  # Flask-App ist auf localhost:5000 erreichbar
+      - "5000:5000"  # Flask-App ist auf localhost:5000 erreichbar
     environment:
       - FLASK_ENV=development  # Flask im Entwicklungsmodus starten
       - LLM_MODEL_NAME=gpt-3.5-turbo
